@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
@@ -14,8 +14,8 @@
       window.plausible =
         window.plausible ||
         function () {
-          ;(window.plausible.q = window.plausible.q || []).push(arguments)
-        }
+          (window.plausible.q = window.plausible.q || []).push(arguments);
+        };
     </script>
     <link
       href="https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800&family=DM+Sans:wght@300;400;500;600&family=Space+Mono:wght@400;700&display=swap"
@@ -26,25 +26,33 @@
     <script type="module" src="shader-canvas.js"></script>
     <style>
       :root {
-        --bg-primary:    #000000;
-        --bg-secondary:  #0a0f14;
-        --bg-tertiary:   #060c12;
-        --accent:        #7dd3fc;
+        --bg-primary: #000000;
+        --bg-secondary: #0a0f14;
+        --bg-tertiary: #060c12;
+        --accent: #7dd3fc;
         --accent-bright: #bae6fd;
-        --accent-dim:    rgba(125, 211, 252, 0.12);
-        --accent-hover:  #38bdf8;
-        --text-primary:  #ffffff;
-        --text-secondary:#94a3b8;
-        --text-muted:    rgba(255,255,255,0.3);
-        --border:        rgba(125, 211, 252, 0.1);
+        --accent-dim: rgba(125, 211, 252, 0.12);
+        --accent-hover: #38bdf8;
+        --text-primary: #ffffff;
+        --text-secondary: #94a3b8;
+        --text-muted: rgba(255, 255, 255, 0.3);
+        --border: rgba(125, 211, 252, 0.1);
         --border-active: rgba(125, 211, 252, 0.4);
-        --shadow:        rgba(125, 211, 252, 0.15);
-        --ice:           rgba(186, 230, 253, 0.06);
+        --shadow: rgba(125, 211, 252, 0.15);
+        --ice: rgba(186, 230, 253, 0.06);
       }
 
-      * { margin: 0; padding: 0; box-sizing: border-box; }
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
 
-      html, body { height: 100%; margin: 0; }
+      html,
+      body {
+        height: 100%;
+        margin: 0;
+      }
 
       body {
         font-family: 'DM Sans', sans-serif;
@@ -80,41 +88,64 @@
       }
       .aurora-band:nth-child(1) {
         top: 5%;
-        background: linear-gradient(90deg, transparent, rgba(125,211,252,0.12), rgba(56,189,248,0.08), transparent);
+        background: linear-gradient(
+          90deg,
+          transparent,
+          rgba(125, 211, 252, 0.12),
+          rgba(56, 189, 248, 0.08),
+          transparent
+        );
         animation-duration: 18s;
         animation-delay: 0s;
       }
       .aurora-band:nth-child(2) {
         top: 12%;
-        background: linear-gradient(90deg, transparent, rgba(186,230,253,0.06), rgba(125,211,252,0.1), transparent);
+        background: linear-gradient(
+          90deg,
+          transparent,
+          rgba(186, 230, 253, 0.06),
+          rgba(125, 211, 252, 0.1),
+          transparent
+        );
         animation-duration: 24s;
         animation-delay: -8s;
       }
       .aurora-band:nth-child(3) {
         top: 20%;
-        background: linear-gradient(90deg, transparent, rgba(56,189,248,0.06), transparent);
+        background: linear-gradient(90deg, transparent, rgba(56, 189, 248, 0.06), transparent);
         animation-duration: 30s;
         animation-delay: -14s;
       }
 
       @keyframes aurora-drift {
-        0%   { transform: translateX(-20%) scaleY(1); }
-        50%  { transform: translateX(10%) scaleY(1.3); }
-        100% { transform: translateX(-20%) scaleY(1); }
+        0% {
+          transform: translateX(-20%) scaleY(1);
+        }
+        50% {
+          transform: translateX(10%) scaleY(1.3);
+        }
+        100% {
+          transform: translateX(-20%) scaleY(1);
+        }
       }
 
       .bg-grid {
         position: absolute;
         inset: 0;
         background-image:
-          linear-gradient(rgba(125,211,252,0.04) 1px, transparent 1px),
-          linear-gradient(90deg, rgba(125,211,252,0.04) 1px, transparent 1px);
+          linear-gradient(rgba(125, 211, 252, 0.04) 1px, transparent 1px),
+          linear-gradient(90deg, rgba(125, 211, 252, 0.04) 1px, transparent 1px);
         background-size: 36px 36px;
         animation: grid-breathe 5s ease-in-out infinite;
       }
       @keyframes grid-breathe {
-        0%,100% { opacity: 0.6; }
-        50%     { opacity: 1; }
+        0%,
+        100% {
+          opacity: 0.6;
+        }
+        50% {
+          opacity: 1;
+        }
       }
 
       canvas#frost {
@@ -137,13 +168,17 @@
       .arctic-spinner {
         width: 36px;
         height: 36px;
-        border: 2px solid rgba(125,211,252,0.15);
+        border: 2px solid rgba(125, 211, 252, 0.15);
         border-top-color: var(--accent);
         border-radius: 50%;
         animation: spin 1s linear infinite;
         margin-bottom: 18px;
       }
-      @keyframes spin { to { transform: rotate(360deg); } }
+      @keyframes spin {
+        to {
+          transform: rotate(360deg);
+        }
+      }
 
       .loading-text {
         font-family: 'Space Mono', monospace;
@@ -161,7 +196,7 @@
         flex-direction: column;
         padding-top: 5px;
         z-index: 100;
-        box-shadow: 0 1px 0 rgba(125,211,252,0.06);
+        box-shadow: 0 1px 0 rgba(125, 211, 252, 0.06);
       }
 
       .tabs-container {
@@ -192,11 +227,11 @@
       }
 
       .tab.active {
-        background: rgba(125,211,252,0.06);
+        background: rgba(125, 211, 252, 0.06);
         opacity: 1;
         border-color: var(--border-active);
         color: var(--text-primary);
-        box-shadow: 0 0 16px rgba(125,211,252,0.08);
+        box-shadow: 0 0 16px rgba(125, 211, 252, 0.08);
       }
 
       .tab-title {
@@ -209,7 +244,8 @@
       .close-tab {
         opacity: 0.4;
         font-size: 14px;
-        width: 18px; height: 18px;
+        width: 18px;
+        height: 18px;
         display: flex;
         align-items: center;
         justify-content: center;
@@ -217,7 +253,7 @@
         transition: all 0.2s;
       }
       .close-tab:hover {
-        background: rgba(125,211,252,0.15);
+        background: rgba(125, 211, 252, 0.15);
         opacity: 1;
         color: var(--accent);
       }
@@ -230,7 +266,10 @@
         transition: all 0.2s;
         font-size: 1.1rem;
       }
-      .new-tab-btn:hover { opacity: 1; color: var(--accent); }
+      .new-tab-btn:hover {
+        opacity: 1;
+        color: var(--accent);
+      }
 
       .toolbar {
         background: rgba(6, 12, 18, 0.9);
@@ -254,17 +293,22 @@
         transition: all 0.2s;
       }
       .nav-btn:hover {
-        background: rgba(125,211,252,0.08);
+        background: rgba(125, 211, 252, 0.08);
         color: var(--accent);
       }
-      .nav-btn:disabled { opacity: 0.2; }
+      .nav-btn:disabled {
+        opacity: 0.2;
+      }
 
-      .url-bar { flex: 1; position: relative; }
+      .url-bar {
+        flex: 1;
+        position: relative;
+      }
 
       .url-bar input {
         width: 100%;
         padding: 7px 36px 7px 14px;
-        background: rgba(125,211,252,0.04);
+        background: rgba(125, 211, 252, 0.04);
         border: 1px solid var(--border);
         border-radius: 5px;
         color: var(--text-primary);
@@ -275,17 +319,21 @@
       }
       .url-bar input:focus {
         border-color: var(--accent);
-        background: rgba(125,211,252,0.07);
-        box-shadow: 0 0 0 3px rgba(125,211,252,0.08);
+        background: rgba(125, 211, 252, 0.07);
+        box-shadow: 0 0 0 3px rgba(125, 211, 252, 0.08);
       }
-      .url-bar input::placeholder { color: var(--text-muted); }
+      .url-bar input::placeholder {
+        color: var(--text-muted);
+      }
 
       .spinner-icon {
         position: absolute;
-        right: 10px; top: 50%;
+        right: 10px;
+        top: 50%;
         margin-top: -8px;
-        width: 16px; height: 16px;
-        border: 2px solid rgba(125,211,252,0.15);
+        width: 16px;
+        height: 16px;
+        border: 2px solid rgba(125, 211, 252, 0.15);
         border-top-color: var(--accent);
         border-radius: 50%;
         animation: spin 1s linear infinite;
@@ -293,7 +341,8 @@
       }
 
       .tab-icon-area {
-        width: 16px; height: 16px;
+        width: 16px;
+        height: 16px;
         display: flex;
         align-items: center;
         justify-content: center;
@@ -317,16 +366,20 @@
         opacity: 0;
         transition: opacity 0.25s ease;
       }
-      .tab-transition.active { opacity: 1; }
+      .tab-transition.active {
+        opacity: 1;
+      }
 
       #canvas-container {
-        width: 100%; height: 100%;
+        width: 100%;
+        height: 100%;
         flex: 1;
         background: white;
       }
       #canvas-container iframe {
         display: block;
-        width: 100%; height: 100%;
+        width: 100%;
+        height: 100%;
         border: none;
       }
 
@@ -357,11 +410,16 @@
         font-weight: 800;
         letter-spacing: 0.45rem;
         text-transform: uppercase;
-        background: linear-gradient(135deg, #ffffff 0%, var(--accent-bright) 50%, var(--accent) 100%);
+        background: linear-gradient(
+          135deg,
+          #ffffff 0%,
+          var(--accent-bright) 50%,
+          var(--accent) 100%
+        );
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
         background-clip: text;
-        filter: drop-shadow(0 0 30px rgba(125,211,252,0.25));
+        filter: drop-shadow(0 0 30px rgba(125, 211, 252, 0.25));
         position: relative;
         z-index: 1;
       }
@@ -387,7 +445,7 @@
       .search-container input {
         width: 100%;
         padding: 11px 18px;
-        background: rgba(125,211,252,0.05);
+        background: rgba(125, 211, 252, 0.05);
         border: 1px solid var(--border);
         border-radius: 5px;
         color: white;
@@ -398,10 +456,14 @@
       }
       .search-container input:focus {
         border-color: var(--accent);
-        background: rgba(125,211,252,0.08);
-        box-shadow: 0 0 0 3px rgba(125,211,252,0.08), 0 0 20px rgba(125,211,252,0.1);
+        background: rgba(125, 211, 252, 0.08);
+        box-shadow:
+          0 0 0 3px rgba(125, 211, 252, 0.08),
+          0 0 20px rgba(125, 211, 252, 0.1);
       }
-      .search-container input::placeholder { color: var(--text-muted); }
+      .search-container input::placeholder {
+        color: var(--text-muted);
+      }
 
       .quick-apps-section {
         width: 100%;
@@ -441,7 +503,7 @@
       .edit-btn:hover {
         border-color: var(--accent);
         color: var(--accent);
-        box-shadow: 0 0 10px rgba(125,211,252,0.1);
+        box-shadow: 0 0 10px rgba(125, 211, 252, 0.1);
       }
 
       .quick-apps-grid {
@@ -451,7 +513,7 @@
       }
 
       .app-card {
-        background: rgba(125,211,252,0.04);
+        background: rgba(125, 211, 252, 0.04);
         border: 1px solid var(--border);
         border-radius: 6px;
         padding: 14px 8px;
@@ -467,16 +529,21 @@
         background: var(--accent-dim);
         border-color: var(--border-active);
         transform: translateY(-2px);
-        box-shadow: 0 6px 20px rgba(125,211,252,0.1);
+        box-shadow: 0 6px 20px rgba(125, 211, 252, 0.1);
       }
 
       .app-icon {
-        width: 24px; height: 24px;
+        width: 24px;
+        height: 24px;
         display: flex;
         align-items: center;
         justify-content: center;
       }
-      .app-icon img { width: 100%; height: 100%; object-fit: contain; }
+      .app-icon img {
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+      }
 
       .app-name {
         font-size: 0.68rem;
@@ -491,12 +558,15 @@
 
       .card-actions {
         position: absolute;
-        top: -8px; right: -8px;
-        display: flex; gap: 4px;
+        top: -8px;
+        right: -8px;
+        display: flex;
+        gap: 4px;
       }
 
       .action-btn {
-        width: 22px; height: 22px;
+        width: 22px;
+        height: 22px;
         border-radius: 50%;
         background: var(--bg-tertiary);
         border: 1px solid var(--border-active);
@@ -508,15 +578,23 @@
         cursor: pointer;
         transition: all 0.2s;
       }
-      .action-btn.remove:hover { background: var(--accent); color: #000; }
-      .action-btn.edit:hover   { background: var(--accent); color: #000; }
+      .action-btn.remove:hover {
+        background: var(--accent);
+        color: #000;
+      }
+      .action-btn.edit:hover {
+        background: var(--accent);
+        color: #000;
+      }
 
       .add-card {
         border-style: dashed;
         color: var(--text-muted);
         justify-content: center;
       }
-      .add-card:hover { color: var(--accent); }
+      .add-card:hover {
+        color: var(--accent);
+      }
 
       .aboutblank-btn {
         margin-top: 28px;
@@ -541,10 +619,13 @@
         background: var(--accent-dim);
         border-color: var(--border-active);
         color: var(--accent);
-        box-shadow: 0 0 20px rgba(125,211,252,0.1);
+        box-shadow: 0 0 20px rgba(125, 211, 252, 0.1);
         transform: translateY(-1px);
       }
-      .aboutblank-btn svg { width: 16px; height: 16px; }
+      .aboutblank-btn svg {
+        width: 16px;
+        height: 16px;
+      }
 
       .recent-section {
         width: 100%;
@@ -555,13 +636,17 @@
         z-index: 2;
       }
 
-      .recent-list { display: flex; flex-direction: column; gap: 7px; }
+      .recent-list {
+        display: flex;
+        flex-direction: column;
+        gap: 7px;
+      }
 
       .recent-item {
         display: flex;
         align-items: center;
         gap: 12px;
-        background: rgba(125,211,252,0.03);
+        background: rgba(125, 211, 252, 0.03);
         border: 1px solid var(--border);
         border-radius: 6px;
         padding: 9px 13px;
@@ -571,13 +656,21 @@
       .recent-item:hover {
         background: var(--accent-dim);
         border-color: var(--border-active);
-        box-shadow: 0 0 14px rgba(125,211,252,0.08);
+        box-shadow: 0 0 14px rgba(125, 211, 252, 0.08);
         transform: translateX(3px);
       }
 
-      .recent-favicon { width: 14px; height: 14px; flex-shrink: 0; border-radius: 3px; }
+      .recent-favicon {
+        width: 14px;
+        height: 14px;
+        flex-shrink: 0;
+        border-radius: 3px;
+      }
 
-      .recent-info { flex: 1; overflow: hidden; }
+      .recent-info {
+        flex: 1;
+        overflow: hidden;
+      }
 
       .recent-title {
         font-size: 0.78rem;
@@ -599,7 +692,8 @@
       .recent-remove {
         font-size: 14px;
         color: var(--text-muted);
-        width: 20px; height: 20px;
+        width: 20px;
+        height: 20px;
         display: flex;
         align-items: center;
         justify-content: center;
@@ -608,13 +702,18 @@
         opacity: 0;
         transition: all 0.2s;
       }
-      .recent-item:hover .recent-remove { opacity: 1; }
-      .recent-remove:hover { background: rgba(125,211,252,0.15); color: var(--accent); }
+      .recent-item:hover .recent-remove {
+        opacity: 1;
+      }
+      .recent-remove:hover {
+        background: rgba(125, 211, 252, 0.15);
+        color: var(--accent);
+      }
 
       .modal-overlay {
         position: fixed;
         inset: 0;
-        background: rgba(0,0,0,0.88);
+        background: rgba(0, 0, 0, 0.88);
         display: flex;
         align-items: center;
         justify-content: center;
@@ -629,7 +728,7 @@
         width: 100%;
         max-width: 380px;
         padding: 24px;
-        box-shadow: 0 20px 60px rgba(125,211,252,0.12);
+        box-shadow: 0 20px 60px rgba(125, 211, 252, 0.12);
       }
 
       .modal h4 {
@@ -641,7 +740,9 @@
         color: var(--text-primary);
       }
 
-      .form-group { margin-bottom: 13px; }
+      .form-group {
+        margin-bottom: 13px;
+      }
       .form-group label {
         display: block;
         font-size: 0.72rem;
@@ -653,7 +754,7 @@
       .form-group input {
         width: 100%;
         padding: 9px 12px;
-        background: rgba(125,211,252,0.05);
+        background: rgba(125, 211, 252, 0.05);
         border: 1px solid var(--border);
         border-radius: 5px;
         color: white;
@@ -663,7 +764,7 @@
       }
       .form-group input:focus {
         border-color: var(--accent);
-        box-shadow: 0 0 0 3px rgba(125,211,252,0.08);
+        box-shadow: 0 0 0 3px rgba(125, 211, 252, 0.08);
       }
 
       .modal-footer {
@@ -687,17 +788,22 @@
         color: var(--text-secondary);
         border: 1px solid var(--border);
       }
-      .btn-cancel:hover { color: var(--accent); border-color: var(--accent); }
+      .btn-cancel:hover {
+        color: var(--accent);
+        border-color: var(--accent);
+      }
       .btn-save {
         background: var(--accent);
         color: #000;
         font-weight: 600;
       }
-      .btn-save:hover { background: var(--accent-bright); box-shadow: 0 0 16px rgba(125,211,252,0.3); }
+      .btn-save:hover {
+        background: var(--accent-bright);
+        box-shadow: 0 0 16px rgba(125, 211, 252, 0.3);
+      }
     </style>
   </head>
   <body x-data="arcticApp()">
-
     <div class="bg-effects">
       <div class="aurora">
         <div class="aurora-band"></div>
@@ -711,32 +817,84 @@
     <!-- Loading -->
     <div x-show="!ready" class="loading-overlay">
       <template x-if="!initError">
-        <div style="display:flex;flex-direction:column;align-items:center;">
+        <div style="display: flex; flex-direction: column; align-items: center">
           <div class="arctic-spinner"></div>
           <p class="loading-text" x-text="loadingStatus"></p>
         </div>
       </template>
       <template x-if="initError">
-        <div style="display:flex;flex-direction:column;align-items:center;gap:16px;max-width:340px;text-align:center;padding:20px;">
-          <div style="font-size:1.8rem;">⚠️</div>
-          <p style="font-family:'Space Mono',monospace;color:var(--accent);font-size:0.78rem;" x-text="initError"></p>
-          <button @click="forceReady()" style="padding:10px 24px;background:var(--accent);border:none;border-radius:5px;color:#000;font-size:0.9rem;cursor:pointer;font-weight:600;font-family:'DM Sans',sans-serif;">Continue Anyway</button>
-          <button @click="location.reload()" style="padding:8px 24px;background:transparent;border:1px solid var(--border);border-radius:5px;color:var(--text-secondary);font-size:0.82rem;cursor:pointer;font-family:'DM Sans',sans-serif;">Reload</button>
+        <div
+          style="
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 16px;
+            max-width: 340px;
+            text-align: center;
+            padding: 20px;
+          "
+        >
+          <div style="font-size: 1.8rem">⚠️</div>
+          <p
+            style="font-family: 'Space Mono', monospace; color: var(--accent); font-size: 0.78rem"
+            x-text="initError"
+          ></p>
+          <button
+            @click="forceReady()"
+            style="
+              padding: 10px 24px;
+              background: var(--accent);
+              border: none;
+              border-radius: 5px;
+              color: #000;
+              font-size: 0.9rem;
+              cursor: pointer;
+              font-weight: 600;
+              font-family: 'DM Sans', sans-serif;
+            "
+          >
+            Continue Anyway
+          </button>
+          <button
+            @click="location.reload()"
+            style="
+              padding: 8px 24px;
+              background: transparent;
+              border: 1px solid var(--border);
+              border-radius: 5px;
+              color: var(--text-secondary);
+              font-size: 0.82rem;
+              cursor: pointer;
+              font-family: 'DM Sans', sans-serif;
+            "
+          >
+            Reload
+          </button>
         </div>
       </template>
     </div>
 
     <!-- Top Bar -->
-    <div class="top-bar" x-show="ready" style="display:none">
+    <div class="top-bar" x-show="ready" style="display: none">
       <div class="tabs-container">
         <template x-for="tab in tabs" :key="tab.id">
           <div class="tab" :class="{ active: activeTabId === tab.id }" @click="activateTab(tab.id)">
             <div class="tab-icon-area">
               <template x-if="tab.loading">
-                <div class="arctic-spinner" style="width:12px;height:12px;border-width:2px;margin:0;"></div>
+                <div
+                  class="arctic-spinner"
+                  style="width: 12px; height: 12px; border-width: 2px; margin: 0"
+                ></div>
               </template>
               <template x-if="!tab.loading">
-                <img :src="tab.favicon || 'mathpunch.jpeg'" style="width:14px;height:14px;border-radius:2px;" onerror="this.onerror=null;this.src='mathpunch.jpeg'" />
+                <img
+                  :src="tab.favicon || 'mathpunch.jpeg'"
+                  style="width: 14px; height: 14px; border-radius: 2px"
+                  onerror="
+                    this.onerror = null;
+                    this.src = 'mathpunch.jpeg';
+                  "
+                />
               </template>
             </div>
             <span class="tab-title" x-text="tab.title || 'New Tab'"></span>
@@ -748,22 +906,55 @@
 
       <div class="toolbar">
         <button class="nav-btn" @click="goBack()">
-          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/>
+          <svg
+            width="15"
+            height="15"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <line x1="19" y1="12" x2="5" y2="12" />
+            <polyline points="12 19 5 12 12 5" />
           </svg>
         </button>
         <button class="nav-btn" @click="goForward()">
-          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/>
+          <svg
+            width="15"
+            height="15"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <line x1="5" y1="12" x2="19" y2="12" />
+            <polyline points="12 5 19 12 12 19" />
           </svg>
         </button>
         <button class="nav-btn" @click="reloadTab()">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/>
+          <svg
+            width="14"
+            height="14"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <polyline points="23 4 23 10 17 10" />
+            <path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10" />
           </svg>
         </button>
         <div class="url-bar">
-          <form @submit.prevent="navigate(); $event.target.querySelector('input').blur()" style="margin:0">
+          <form
+            @submit.prevent="navigate(); $event.target.querySelector('input').blur()"
+            style="margin: 0"
+          >
             <input type="text" x-model="currentUrlInput" placeholder="Search or enter URL..." />
           </form>
           <div class="spinner-icon" x-show="isLoading"></div>
@@ -772,34 +963,49 @@
     </div>
 
     <!-- Content -->
-    <div class="content-area" x-show="ready" style="display:none">
+    <div class="content-area" x-show="ready" style="display: none">
       <div class="tab-transition" :class="{ active: tabTransitioning }"></div>
       <div id="canvas-container"></div>
 
       <!-- New Tab UI -->
       <div class="empty-state" x-show="showNewTabUI">
-
-        <div class="logo-group" style="position:relative;z-index:2;">
+        <div class="logo-group" style="position: relative; z-index: 2">
           <div class="arctic-logo">Arctic</div>
           <div class="version-tag">1.0</div>
         </div>
 
         <div class="search-container">
           <form @submit.prevent="navigateFromHome(); $event.target.querySelector('input').blur()">
-            <input type="text" x-model="homeSearchInput" placeholder="search the web..." autofocus />
+            <input
+              type="text"
+              x-model="homeSearchInput"
+              placeholder="search the web..."
+              autofocus
+            />
           </form>
         </div>
 
         <div class="quick-apps-section">
           <div class="section-header">
             <h3>Quick apps</h3>
-            <button class="edit-btn" @click="isEditingBookmarks = !isEditingBookmarks" x-text="isEditingBookmarks ? 'Done' : 'Edit'"></button>
+            <button
+              class="edit-btn"
+              @click="isEditingBookmarks = !isEditingBookmarks"
+              x-text="isEditingBookmarks ? 'Done' : 'Edit'"
+            ></button>
           </div>
           <div class="quick-apps-grid">
             <template x-for="bm in bookmarks" :key="bm.id">
               <div class="app-card" @click="!isEditingBookmarks && navigateBookmark(bm.url)">
                 <div class="app-icon">
-                  <img :src="bm.icon || `https://www.google.com/s2/favicons?domain=${bm.url}&sz=64`" :alt="bm.name" onerror="this.onerror=null;this.src='mathpunch.jpeg'" />
+                  <img
+                    :src="bm.icon || `https://www.google.com/s2/favicons?domain=${bm.url}&sz=64`"
+                    :alt="bm.name"
+                    onerror="
+                      this.onerror = null;
+                      this.src = 'mathpunch.jpeg';
+                    "
+                  />
                 </div>
                 <span class="app-name" x-text="bm.name"></span>
                 <div class="card-actions" x-show="isEditingBookmarks">
@@ -809,17 +1015,24 @@
               </div>
             </template>
             <div class="app-card add-card" x-show="isEditingBookmarks" @click="openAddModal()">
-              <div style="font-size:18px">+</div>
+              <div style="font-size: 18px">+</div>
               <span class="app-name">Add</span>
             </div>
           </div>
         </div>
 
         <button class="aboutblank-btn" @click="openInAboutBlank()">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>
-            <polyline points="15 3 21 3 21 9"/>
-            <line x1="10" y1="14" x2="21" y2="3"/>
+          <svg
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
+            <polyline points="15 3 21 3 21 9" />
+            <line x1="10" y1="14" x2="21" y2="3" />
           </svg>
           Open in about:blank
         </button>
@@ -832,7 +1045,14 @@
           <div class="recent-list">
             <template x-for="(site, index) in recentSites.slice(0,5)" :key="index">
               <div class="recent-item" @click="navigateBookmark(site.url)">
-                <img class="recent-favicon" :src="`https://www.google.com/s2/favicons?domain=${site.url}&sz=32`" onerror="this.onerror=null;this.style.opacity='0'" />
+                <img
+                  class="recent-favicon"
+                  :src="`https://www.google.com/s2/favicons?domain=${site.url}&sz=32`"
+                  onerror="
+                    this.onerror = null;
+                    this.style.opacity = '0';
+                  "
+                />
                 <div class="recent-info">
                   <div class="recent-title" x-text="site.title || site.url"></div>
                   <div class="recent-url" x-text="site.url"></div>
@@ -842,12 +1062,16 @@
             </template>
           </div>
         </div>
-
       </div>
     </div>
 
     <!-- Bookmark Modal -->
-    <div class="modal-overlay" x-show="showBookmarkModal" x-transition.opacity style="display:none">
+    <div
+      class="modal-overlay"
+      x-show="showBookmarkModal"
+      x-transition.opacity
+      style="display: none"
+    >
       <div class="modal" @click.away="showBookmarkModal = false">
         <h4 x-text="bookmarkForm.id ? 'Edit Bookmark' : 'Add Bookmark'"></h4>
         <div class="form-group">
@@ -870,53 +1094,60 @@
     </div>
 
     <script>
-      ;(function () {
-        const canvas = document.getElementById('frost')
-        const ctx    = canvas.getContext('2d')
-        let particles = []
+      (function () {
+        const canvas = document.getElementById('frost');
+        const ctx = canvas.getContext('2d');
+        let particles = [];
 
-        function resize () {
-          canvas.width  = window.innerWidth
-          canvas.height = window.innerHeight
+        function resize() {
+          canvas.width = window.innerWidth;
+          canvas.height = window.innerHeight;
         }
 
-        function init () {
-          particles = []
+        function init() {
+          particles = [];
           for (let i = 0; i < 80; i++) {
             particles.push({
-              x:     Math.random() * canvas.width,
-              y:     Math.random() * canvas.height,
-              r:     Math.random() * 1.5 + 0.3,
+              x: Math.random() * canvas.width,
+              y: Math.random() * canvas.height,
+              r: Math.random() * 1.5 + 0.3,
               alpha: Math.random() * 0.4 + 0.05,
               speed: Math.random() * 0.012 + 0.004,
               phase: Math.random() * Math.PI * 2,
-              vx:    (Math.random() - 0.5) * 0.08,
-              vy:    -(Math.random() * 0.12 + 0.04),
-            })
+              vx: (Math.random() - 0.5) * 0.08,
+              vy: -(Math.random() * 0.12 + 0.04),
+            });
           }
         }
 
-        function draw (t) {
-          ctx.clearRect(0, 0, canvas.width, canvas.height)
+        function draw(t) {
+          ctx.clearRect(0, 0, canvas.width, canvas.height);
           for (const p of particles) {
-            const a = p.alpha * (0.5 + 0.5 * Math.sin(t * p.speed + p.phase))
-            ctx.beginPath()
-            ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2)
-            ctx.fillStyle = `rgba(186,230,253,${a})`
-            ctx.fill()
-            p.x += p.vx; p.y += p.vy
-            if (p.y < -5) { p.y = canvas.height + 5; p.x = Math.random() * canvas.width }
+            const a = p.alpha * (0.5 + 0.5 * Math.sin(t * p.speed + p.phase));
+            ctx.beginPath();
+            ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+            ctx.fillStyle = `rgba(186,230,253,${a})`;
+            ctx.fill();
+            p.x += p.vx;
+            p.y += p.vy;
+            if (p.y < -5) {
+              p.y = canvas.height + 5;
+              p.x = Math.random() * canvas.width;
+            }
           }
-          requestAnimationFrame(draw)
+          requestAnimationFrame(draw);
         }
 
-        resize()
-        init()
-        requestAnimationFrame(draw)
-        window.addEventListener('resize', () => { resize(); init() })
-      })()
+        resize();
+        init();
+        requestAnimationFrame(draw);
+        window.addEventListener('resize', () => {
+          resize();
+          init();
+        });
+      })();
 
-      function arcticApp () {
+      function arcticApp() {
         return {
           canvas: null,
           ready: false,
@@ -933,169 +1164,254 @@
           showBookmarkModal: false,
           bookmarkForm: { id: null, name: '', url: '', icon: '' },
 
-          get activeTab () { return this.tabs.find(t => t.id === this.activeTabId) },
-          get isLoading  () { return this.activeTab ? this.activeTab.loading : false },
-          get showNewTabUI () {
-            if (!this.activeTab) return true
-            return !this.activeTab.url || this.activeTab.url === 'about:blank' || this.activeTab.url.includes('/newtab.html')
+          get activeTab() {
+            return this.tabs.find((t) => t.id === this.activeTabId);
+          },
+          get isLoading() {
+            return this.activeTab ? this.activeTab.loading : false;
+          },
+          get showNewTabUI() {
+            if (!this.activeTab) return true;
+            return (
+              !this.activeTab.url ||
+              this.activeTab.url === 'about:blank' ||
+              this.activeTab.url.includes('/newtab.html')
+            );
           },
 
-          forceReady () { this.ready = true },
+          forceReady() {
+            this.ready = true;
+          },
 
-          async init () {
+          async init() {
             const timeout = setTimeout(() => {
-              if (!this.ready) this.initError = 'Initialization timed out. Proxy files may be missing.'
-            }, 8000)
+              if (!this.ready)
+                this.initError = 'Initialization timed out. Proxy files may be missing.';
+            }, 8000);
 
             // YouTube (id:1), Deep AI (id:4), Twitch (id:5) removed
             const defaults = [
-              { id: 2, name: 'GitHub',      url: 'https://github.com' },
-              { id: 3, name: 'CrazyGames',  url: 'https://crazygames.com' },
-              { id: 6, name: 'SpenFlix',    url: 'https://watch.spencerdevs.xyz' },
+              { id: 2, name: 'GitHub', url: 'https://github.com' },
+              { id: 3, name: 'CrazyGames', url: 'https://crazygames.com' },
+              { id: 6, name: 'SpenFlix', url: 'https://watch.spencerdevs.xyz' },
               { id: 7, name: 'Shuttlemath', url: 'https://shuttlemath.com' },
-              { id: 8, name: 'nowgg',       url: 'https://nowgg.fun' },
-            ]
+              { id: 8, name: 'nowgg', url: 'https://nowgg.fun' },
+            ];
 
-            const saved = localStorage.getItem('arctic_bookmarks')
+            const saved = localStorage.getItem('arctic_bookmarks');
             if (saved) {
               try {
                 // Filter out YouTube, Deep AI, Twitch if they exist in saved data
-                this.bookmarks = JSON.parse(saved).filter(bm => ![1, 4, 5].includes(bm.id))
-              } catch { this.bookmarks = defaults }
-            } else {
-              this.bookmarks = defaults
-            }
-            this.saveToStorage()
-
-            try {
-              const sr = localStorage.getItem('arctic_recent')
-              if (sr) this.recentSites = JSON.parse(sr)
-            } catch { this.recentSites = [] }
-
-            let ShaderCanvas
-            try {
-              this.loadingStatus = 'Loading proxy engine...'
-              const mod = await import('./shader-canvas.js')
-              ShaderCanvas = mod.ShaderCanvas
-              await import('./shader-client.js')
-            } catch (e) {
-              clearTimeout(timeout)
-              this.initError = 'Failed to load proxy files. Check deployment.'
-              return
-            }
-
-            try {
-              this.loadingStatus = 'Starting proxy...'
-              this.canvas = new ShaderCanvas('canvas-container')
-            } catch (e) {
-              clearTimeout(timeout)
-              this.initError = 'Failed to initialize: ' + e.message
-              return
-            }
-
-            this.canvas.on(ShaderCanvas.EVENTS.SURFACE_CREATED, () => this.refreshTabs())
-            this.canvas.on(ShaderCanvas.EVENTS.SURFACE_CLOSED,  () => this.refreshTabs())
-            this.canvas.on(ShaderCanvas.EVENTS.SURFACE_CHANGE, s => {
-              this.activeTabId = s ? s.id : null
-              if (s) this.updateFromSurface(s); else this.currentUrlInput = ''
-            })
-            this.canvas.on(ShaderCanvas.EVENTS.URL_CHANGE, data => {
-              this.currentUrlInput = (data.decoded.includes('/newtab.html') || data.decoded === 'about:blank') ? '' : data.decoded
-              this.refreshTabs()
-            })
-            this.canvas.on(ShaderCanvas.EVENTS.TITLE_CHANGE, () => {
-              this.refreshTabs()
-              const tab = this.activeTab
-              if (tab && tab.url && tab.url !== 'about:blank' && !tab.url.includes('/newtab.html') && tab.title && tab.title !== 'New Tab') {
-                this.addToRecent({ url: tab.url, title: tab.title })
+                this.bookmarks = JSON.parse(saved).filter((bm) => ![1, 4, 5].includes(bm.id));
+              } catch {
+                this.bookmarks = defaults;
               }
-            })
-            this.canvas.on(ShaderCanvas.EVENTS.FAVICON_CHANGE,  () => this.refreshTabs())
-            this.canvas.on(ShaderCanvas.EVENTS.LOADING_START,   () => this.refreshTabs())
-            this.canvas.on(ShaderCanvas.EVENTS.LOADING_STOP,    () => this.refreshTabs())
-            this.canvas.on(ShaderCanvas.EVENTS.READY, () => { clearTimeout(timeout); this.initError = null; this.ready = true })
-            this.canvas.on(ShaderCanvas.EVENTS.ERROR, e => console.error(e))
-
-            try { this.addTab() } catch (e) { clearTimeout(timeout); this.initError = 'Failed to create tab: ' + e.message }
-          },
-
-          updateFromSurface (s) {
-            if (s.client) {
-              const decoded = s.client.decode(s.client._lastUrl || '')
-              this.currentUrlInput = decoded === 'about:blank' ? '' : decoded
-            }
-          },
-
-          refreshTabs () {
-            this.tabs = Array.from(this.canvas.surfaces.values()).map(s => {
-              const client  = s.client
-              const rawUrl  = client ? client._lastUrl || '' : ''
-              const decoded = client ? client.decode(rawUrl) : ''
-              return { id: s.id, title: s.title, favicon: s.favicon, loading: client ? client.getState().loading : false, url: decoded }
-            })
-            if (this.activeTab) {
-              document.title = this.activeTab.title && this.activeTab.title !== 'New Tab'
-                ? `${this.activeTab.title} — Arctic 1.0`
-                : 'Arctic 1.0'
-            }
-          },
-
-          saveToStorage () { localStorage.setItem('arctic_bookmarks', JSON.stringify(this.bookmarks)) },
-          addTab    ()     { const id = this.canvas.createSurface(); this.canvas.switchSurface(id) },
-          closeTab  (id)   { this.canvas.closeSurface(id) },
-
-          activateTab (id) {
-            if (id === this.activeTabId) return
-            this.tabTransitioning = true
-            setTimeout(() => {
-              this.canvas.switchSurface(id)
-              setTimeout(() => { this.tabTransitioning = false }, 150)
-            }, 150)
-          },
-
-          navigate         () { if (!this.currentUrlInput) return; this.canvas.navigate(this.currentUrlInput) },
-          navigateFromHome () { if (!this.homeSearchInput) return; this.canvas.navigate(this.homeSearchInput); this.homeSearchInput = '' },
-          navigateBookmark (url) { this.currentUrlInput = url; this.navigate() },
-          reloadTab  ()    { this.canvas.reload() },
-          goBack     ()    { this.canvas.goBack() },
-          goForward  ()    { this.canvas.goForward() },
-
-          addToRecent (site) {
-            this.recentSites = this.recentSites.filter(s => s.url !== site.url)
-            this.recentSites.unshift(site)
-            if (this.recentSites.length > 10) this.recentSites = this.recentSites.slice(0, 10)
-            localStorage.setItem('arctic_recent', JSON.stringify(this.recentSites))
-          },
-          removeRecent (i) { this.recentSites.splice(i, 1); localStorage.setItem('arctic_recent', JSON.stringify(this.recentSites)) },
-          clearRecent  ()  { this.recentSites = []; localStorage.removeItem('arctic_recent') },
-
-          openInAboutBlank () {
-            const win = window.open('about:blank', '_blank')
-            if (!win) { alert('Popup blocked!'); return }
-            win.document.title = 'Arctic 1.0'
-            const iframe = win.document.createElement('iframe')
-            iframe.style = 'position:fixed;top:0;left:0;width:100%;height:100%;border:none;'
-            iframe.src = window.location.href
-            win.document.body.style = 'margin:0;padding:0;overflow:hidden;'
-            win.document.body.appendChild(iframe)
-          },
-
-          openAddModal  ()   { this.bookmarkForm = { id: null, name: '', url: '', icon: '' }; this.showBookmarkModal = true },
-          editBookmark  (bm) { this.bookmarkForm = { ...bm }; this.showBookmarkModal = true },
-          removeBookmark(id) { this.bookmarks = this.bookmarks.filter(b => b.id !== id); this.saveToStorage() },
-
-          saveBookmark () {
-            if (!this.bookmarkForm.name || !this.bookmarkForm.url) return
-            if (this.bookmarkForm.id) {
-              const idx = this.bookmarks.findIndex(b => b.id === this.bookmarkForm.id)
-              this.bookmarks[idx] = { ...this.bookmarkForm }
             } else {
-              this.bookmarks.push({ ...this.bookmarkForm, id: Date.now() })
+              this.bookmarks = defaults;
             }
-            this.saveToStorage()
-            this.showBookmarkModal = false
+            this.saveToStorage();
+
+            try {
+              const sr = localStorage.getItem('arctic_recent');
+              if (sr) this.recentSites = JSON.parse(sr);
+            } catch {
+              this.recentSites = [];
+            }
+
+            let ShaderCanvas;
+            try {
+              this.loadingStatus = 'Loading proxy engine...';
+              const mod = await import('./shader-canvas.js');
+              ShaderCanvas = mod.ShaderCanvas;
+              await import('./shader-client.js');
+            } catch (e) {
+              clearTimeout(timeout);
+              this.initError = 'Failed to load proxy files. Check deployment.';
+              return;
+            }
+
+            try {
+              this.loadingStatus = 'Starting proxy...';
+              this.canvas = new ShaderCanvas('canvas-container');
+            } catch (e) {
+              clearTimeout(timeout);
+              this.initError = 'Failed to initialize: ' + e.message;
+              return;
+            }
+
+            this.canvas.on(ShaderCanvas.EVENTS.SURFACE_CREATED, () => this.refreshTabs());
+            this.canvas.on(ShaderCanvas.EVENTS.SURFACE_CLOSED, () => this.refreshTabs());
+            this.canvas.on(ShaderCanvas.EVENTS.SURFACE_CHANGE, (s) => {
+              this.activeTabId = s ? s.id : null;
+              if (s) this.updateFromSurface(s);
+              else this.currentUrlInput = '';
+            });
+            this.canvas.on(ShaderCanvas.EVENTS.URL_CHANGE, (data) => {
+              this.currentUrlInput =
+                data.decoded.includes('/newtab.html') || data.decoded === 'about:blank'
+                  ? ''
+                  : data.decoded;
+              this.refreshTabs();
+            });
+            this.canvas.on(ShaderCanvas.EVENTS.TITLE_CHANGE, () => {
+              this.refreshTabs();
+              const tab = this.activeTab;
+              if (
+                tab &&
+                tab.url &&
+                tab.url !== 'about:blank' &&
+                !tab.url.includes('/newtab.html') &&
+                tab.title &&
+                tab.title !== 'New Tab'
+              ) {
+                this.addToRecent({ url: tab.url, title: tab.title });
+              }
+            });
+            this.canvas.on(ShaderCanvas.EVENTS.FAVICON_CHANGE, () => this.refreshTabs());
+            this.canvas.on(ShaderCanvas.EVENTS.LOADING_START, () => this.refreshTabs());
+            this.canvas.on(ShaderCanvas.EVENTS.LOADING_STOP, () => this.refreshTabs());
+            this.canvas.on(ShaderCanvas.EVENTS.READY, () => {
+              clearTimeout(timeout);
+              this.initError = null;
+              this.ready = true;
+            });
+            this.canvas.on(ShaderCanvas.EVENTS.ERROR, (e) => console.error(e));
+
+            try {
+              this.addTab();
+            } catch (e) {
+              clearTimeout(timeout);
+              this.initError = 'Failed to create tab: ' + e.message;
+            }
           },
-        }
+
+          updateFromSurface(s) {
+            if (s.client) {
+              const decoded = s.client.decode(s.client._lastUrl || '');
+              this.currentUrlInput = decoded === 'about:blank' ? '' : decoded;
+            }
+          },
+
+          refreshTabs() {
+            this.tabs = Array.from(this.canvas.surfaces.values()).map((s) => {
+              const client = s.client;
+              const rawUrl = client ? client._lastUrl || '' : '';
+              const decoded = client ? client.decode(rawUrl) : '';
+              return {
+                id: s.id,
+                title: s.title,
+                favicon: s.favicon,
+                loading: client ? client.getState().loading : false,
+                url: decoded,
+              };
+            });
+            if (this.activeTab) {
+              document.title =
+                this.activeTab.title && this.activeTab.title !== 'New Tab'
+                  ? `${this.activeTab.title} — Arctic 1.0`
+                  : 'Arctic 1.0';
+            }
+          },
+
+          saveToStorage() {
+            localStorage.setItem('arctic_bookmarks', JSON.stringify(this.bookmarks));
+          },
+          addTab() {
+            const id = this.canvas.createSurface();
+            this.canvas.switchSurface(id);
+          },
+          closeTab(id) {
+            this.canvas.closeSurface(id);
+          },
+
+          activateTab(id) {
+            if (id === this.activeTabId) return;
+            this.tabTransitioning = true;
+            setTimeout(() => {
+              this.canvas.switchSurface(id);
+              setTimeout(() => {
+                this.tabTransitioning = false;
+              }, 150);
+            }, 150);
+          },
+
+          navigate() {
+            if (!this.currentUrlInput) return;
+            this.canvas.navigate(this.currentUrlInput);
+          },
+          navigateFromHome() {
+            if (!this.homeSearchInput) return;
+            this.canvas.navigate(this.homeSearchInput);
+            this.homeSearchInput = '';
+          },
+          navigateBookmark(url) {
+            this.currentUrlInput = url;
+            this.navigate();
+          },
+          reloadTab() {
+            this.canvas.reload();
+          },
+          goBack() {
+            this.canvas.goBack();
+          },
+          goForward() {
+            this.canvas.goForward();
+          },
+
+          addToRecent(site) {
+            this.recentSites = this.recentSites.filter((s) => s.url !== site.url);
+            this.recentSites.unshift(site);
+            if (this.recentSites.length > 10) this.recentSites = this.recentSites.slice(0, 10);
+            localStorage.setItem('arctic_recent', JSON.stringify(this.recentSites));
+          },
+          removeRecent(i) {
+            this.recentSites.splice(i, 1);
+            localStorage.setItem('arctic_recent', JSON.stringify(this.recentSites));
+          },
+          clearRecent() {
+            this.recentSites = [];
+            localStorage.removeItem('arctic_recent');
+          },
+
+          openInAboutBlank() {
+            const win = window.open('about:blank', '_blank');
+            if (!win) {
+              alert('Popup blocked!');
+              return;
+            }
+            win.document.title = 'Arctic 1.0';
+            const iframe = win.document.createElement('iframe');
+            iframe.style = 'position:fixed;top:0;left:0;width:100%;height:100%;border:none;';
+            iframe.src = window.location.href;
+            win.document.body.style = 'margin:0;padding:0;overflow:hidden;';
+            win.document.body.appendChild(iframe);
+          },
+
+          openAddModal() {
+            this.bookmarkForm = { id: null, name: '', url: '', icon: '' };
+            this.showBookmarkModal = true;
+          },
+          editBookmark(bm) {
+            this.bookmarkForm = { ...bm };
+            this.showBookmarkModal = true;
+          },
+          removeBookmark(id) {
+            this.bookmarks = this.bookmarks.filter((b) => b.id !== id);
+            this.saveToStorage();
+          },
+
+          saveBookmark() {
+            if (!this.bookmarkForm.name || !this.bookmarkForm.url) return;
+            if (this.bookmarkForm.id) {
+              const idx = this.bookmarks.findIndex((b) => b.id === this.bookmarkForm.id);
+              this.bookmarks[idx] = { ...this.bookmarkForm };
+            } else {
+              this.bookmarks.push({ ...this.bookmarkForm, id: Date.now() });
+            }
+            this.saveToStorage();
+            this.showBookmarkModal = false;
+          },
+        };
       }
     </script>
   </body>

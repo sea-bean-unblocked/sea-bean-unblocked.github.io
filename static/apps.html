@@ -1,193 +1,241 @@
-<!DOCTYPE html>
+<!doctype html>
 <html>
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="robots" content="noindex" />
+    <link rel="icon" href="/assets/img/salyte.jpg" />
+    <link rel="stylesheet" href="/assets/css/app.css?v=2.2" />
+    <link rel="stylesheet" href="/assets/css/gms.css?v=2.2" />
+    <link rel="stylesheet" href="/assets/css/menu.css?v=2.2" />
+    <script
+      rel="preload"
+      src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js?v=2.2"
+    ></script>
+    <script src="/assets/js/particles.js?v=2.2"></script>
+    <script src="/assets/js/cdn-rocket.js?v=2.2"></script>
+    <script src="/assets/js/anym.js?v=2.2"></script>
+    <title>Arctic 1.0</title>
+    <script
+      defer
+      data-domain="math-punch"
+      src="https://stats.senty.com.au/js/script.outbound-links.pageview-props.tagged-events.js"
+    ></script>
+    <script>
+      window.plausible =
+        window.plausible ||
+        function () {
+          (window.plausible.q = window.plausible.q || []).push(arguments);
+        };
+    </script>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-6YEQ7Q0XRC"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag() {
+        dataLayer.push(arguments);
+      }
+      gtag('js', new Date());
+      gtag('config', 'G-6YEQ7Q0XRC');
+    </script>
 
-<head>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="robots" content="noindex">
-  <link rel="icon" href="/assets/img/salyte.jpg">
-  <link rel="stylesheet" href="/assets/css/app.css?v=2.2">
-  <link rel="stylesheet" href="/assets/css/gms.css?v=2.2">
-  <link rel="stylesheet" href="/assets/css/menu.css?v=2.2">
-  <script rel="preload" src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js?v=2.2"></script>
-  <script src="/assets/js/particles.js?v=2.2"></script>
-  <script src="/assets/js/cdn-rocket.js?v=2.2"></script>
-  <script src="/assets/js/anym.js?v=2.2"></script>
-  <title>Arctic 1.0</title>
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-6YEQ7Q0XRC"></script>
-  <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag() { dataLayer.push(arguments); }
-    gtag('js', new Date());
-    gtag('config', 'G-6YEQ7Q0XRC');
-  </script>
-
-  <style>
-    #loading-screen {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background-color: #000000;
-      display: none;
-      justify-content: center;
-      align-items: center;
-      z-index: 9999;
-      transition: opacity 0.5s ease-out;
-    }
-
-    #loading-screen.show {
-      display: flex;
-    }
-
-    #loading-screen.fade-out {
-      opacity: 0;
-      pointer-events: none;
-    }
-
-    .spinner {
-      width: 44px;
-      height: 44px;
-      animation: spinner-y0fdc1 2s infinite ease;
-      transform-style: preserve-3d;
-    }
-
-    .spinner>div {
-      background-color: rgba(0, 77, 255, 0.2);
-      height: 100%;
-      position: absolute;
-      width: 100%;
-      border: 2px solid #004dff;
-    }
-
-    .spinner div:nth-of-type(1) {
-      transform: translateZ(-22px) rotateY(180deg);
-    }
-
-    .spinner div:nth-of-type(2) {
-      transform: rotateY(-270deg) translateX(50%);
-      transform-origin: top right;
-    }
-
-    .spinner div:nth-of-type(3) {
-      transform: rotateY(270deg) translateX(-50%);
-      transform-origin: center left;
-    }
-
-    .spinner div:nth-of-type(4) {
-      transform: rotateX(90deg) translateY(-50%);
-      transform-origin: top center;
-    }
-
-    .spinner div:nth-of-type(5) {
-      transform: rotateX(-90deg) translateY(50%);
-      transform-origin: bottom center;
-    }
-
-    .spinner div:nth-of-type(6) {
-      transform: translateZ(22px);
-    }
-
-    @keyframes spinner-y0fdc1 {
-      0% {
-        transform: rotate(45deg) rotateX(-25deg) rotateY(25deg);
+    <style>
+      #loading-screen {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: #000000;
+        display: none;
+        justify-content: center;
+        align-items: center;
+        z-index: 9999;
+        transition: opacity 0.5s ease-out;
       }
 
-      50% {
-        transform: rotate(45deg) rotateX(-385deg) rotateY(25deg);
+      #loading-screen.show {
+        display: flex;
       }
 
-      100% {
-        transform: rotate(45deg) rotateX(-385deg) rotateY(385deg);
+      #loading-screen.fade-out {
+        opacity: 0;
+        pointer-events: none;
       }
-    }
-  </style>
-</head>
 
-<body>
-  <div id="loading-screen">
-    <div class="spinner">
-      <div></div>
-      <div></div>
-      <div></div>
-      <div></div>
-      <div></div>
-      <div></div>
+      .spinner {
+        width: 44px;
+        height: 44px;
+        animation: spinner-y0fdc1 2s infinite ease;
+        transform-style: preserve-3d;
+      }
+
+      .spinner > div {
+        background-color: rgba(0, 77, 255, 0.2);
+        height: 100%;
+        position: absolute;
+        width: 100%;
+        border: 2px solid #004dff;
+      }
+
+      .spinner div:nth-of-type(1) {
+        transform: translateZ(-22px) rotateY(180deg);
+      }
+
+      .spinner div:nth-of-type(2) {
+        transform: rotateY(-270deg) translateX(50%);
+        transform-origin: top right;
+      }
+
+      .spinner div:nth-of-type(3) {
+        transform: rotateY(270deg) translateX(-50%);
+        transform-origin: center left;
+      }
+
+      .spinner div:nth-of-type(4) {
+        transform: rotateX(90deg) translateY(-50%);
+        transform-origin: top center;
+      }
+
+      .spinner div:nth-of-type(5) {
+        transform: rotateX(-90deg) translateY(50%);
+        transform-origin: bottom center;
+      }
+
+      .spinner div:nth-of-type(6) {
+        transform: translateZ(22px);
+      }
+
+      @keyframes spinner-y0fdc1 {
+        0% {
+          transform: rotate(45deg) rotateX(-25deg) rotateY(25deg);
+        }
+
+        50% {
+          transform: rotate(45deg) rotateX(-385deg) rotateY(25deg);
+        }
+
+        100% {
+          transform: rotate(45deg) rotateX(-385deg) rotateY(385deg);
+        }
+      }
+    </style>
+  </head>
+
+  <body>
+    <div id="loading-screen">
+      <div class="spinner">
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+      </div>
     </div>
-  </div>
 
-  <div id="contextMenu" class="context-menu themesExcluded" style="--ripple-duration: 300ms;">
-    <div class="context-menu-item with-submenu themesExcluded" id="contextItem" anim="ripple"
-      onclick="toggleSubmenu(event)"></div>
-  </div>
-
-  <nav id="mytopnav">
-    <button class="btn-main" anim="ripple" onclick="send('/settings.html')">
-      <i class="bi bi-gear" style="font-size:30px;"></i>Settings
-    </button>
-    <button class="btn-main" anim="ripple" onclick="send('/gms.html')">
-      <i class="bi bi-joystick" style="font-size:30px;"></i>Games
-    </button>
-    <button class="btn-main active" anim="ripple">
-      <i class="bi bi-grid-fill" style="font-size:30px;"></i>Apps
-    </button><br>
-    <a href="/" class="title" anim="ripple">
-      <img src="/assets/img/doge2.jpg" style="width:22px;height:22px;" id="logo"> Arctic 1.0
-    </a>
-  </nav>
-
-  <div class="search-bar themesExcluded"
-    style="display: flex; justify-content: center; border-radius: 10px; margin: 20px;">
-    <form id="searchForm" onsubmit="return false;" autocomplete="off">
-      <i class="bi bi-search searchIcon" style="margin-left: 147px;" id="search"></i>
-      <input id="searchApps" style="width: 420px;" placeholder="Search For Apps" class="searchbar">
-    </form>
-  </div>
-
-  <div class="search-results themesExcluded" id="appContainer">
-    <div id="searchMessage" class="themesExcluded"
-      style="display: none;color:white;text-align: center;font-size: 30px;margin:20px;font-family:poppins;padding: 0;">
+    <div id="contextMenu" class="context-menu themesExcluded" style="--ripple-duration: 300ms">
+      <div
+        class="context-menu-item with-submenu themesExcluded"
+        id="contextItem"
+        anim="ripple"
+        onclick="toggleSubmenu(event)"
+      ></div>
     </div>
-    <div id="fetchMessage" class="themesExcluded"
-      style="display:block;color:white;text-align: center;font-size: 30px;margin:20px;font-family:poppins;padding: 0;">
-      Loading apps...
+
+    <nav id="mytopnav">
+      <button class="btn-main" anim="ripple" onclick="send('/settings.html')">
+        <i class="bi bi-gear" style="font-size: 30px"></i>Settings
+      </button>
+      <button class="btn-main" anim="ripple" onclick="send('/gms.html')">
+        <i class="bi bi-joystick" style="font-size: 30px"></i>Games
+      </button>
+      <button class="btn-main active" anim="ripple">
+        <i class="bi bi-grid-fill" style="font-size: 30px"></i>Apps</button
+      ><br />
+      <a href="/" class="title" anim="ripple">
+        <img src="/assets/img/doge2.jpg" style="width: 22px; height: 22px" id="logo" /> Arctic 1.0
+      </a>
+    </nav>
+
+    <div
+      class="search-bar themesExcluded"
+      style="display: flex; justify-content: center; border-radius: 10px; margin: 20px"
+    >
+      <form id="searchForm" onsubmit="return false;" autocomplete="off">
+        <i class="bi bi-search searchIcon" style="margin-left: 147px" id="search"></i>
+        <input
+          id="searchApps"
+          style="width: 420px"
+          placeholder="Search For Apps"
+          class="searchbar"
+        />
+      </form>
     </div>
-  </div><br>
 
-  <script src="/wk/wk2.js?v=2.2"></script>
-  <script src="/assets/js/themes.js?v=2.2"></script>
-  <script src="/assets/js/ag.js?v=2.2"></script>
-  <script src="/assets/js/apps.js?v=2.2"></script>
-  <script src="/assets/js/main.js?v=2.2"></script>
+    <div class="search-results themesExcluded" id="appContainer">
+      <div
+        id="searchMessage"
+        class="themesExcluded"
+        style="
+          display: none;
+          color: white;
+          text-align: center;
+          font-size: 30px;
+          margin: 20px;
+          font-family: poppins;
+          padding: 0;
+        "
+      ></div>
+      <div
+        id="fetchMessage"
+        class="themesExcluded"
+        style="
+          display: block;
+          color: white;
+          text-align: center;
+          font-size: 30px;
+          margin: 20px;
+          font-family: poppins;
+          padding: 0;
+        "
+      >
+        Loading apps...
+      </div>
+    </div>
+    <br />
 
-  <script>
-    const loadingScreen = document.getElementById('loading-screen');
+    <script src="/wk/wk2.js?v=2.2"></script>
+    <script src="/assets/js/themes.js?v=2.2"></script>
+    <script src="/assets/js/ag.js?v=2.2"></script>
+    <script src="/assets/js/apps.js?v=2.2"></script>
+    <script src="/assets/js/main.js?v=2.2"></script>
 
-    if (localStorage.getItem('loadingScreenDisabled') !== 'true') {
-      loadingScreen.classList.add('show');
-      document.body.style.overflow = 'hidden';
+    <script>
+      const loadingScreen = document.getElementById('loading-screen');
 
-      window.addEventListener('load', () => {
-        loadingScreen.classList.add('fade-out');
-        setTimeout(() => {
-          loadingScreen.style.display = 'none';
-          document.body.style.overflow = '';
-        }, 500);
-      });
-    } else {
-      document.body.style.overflow = '';
-    }
+      if (localStorage.getItem('loadingScreenDisabled') !== 'true') {
+        loadingScreen.classList.add('show');
+        document.body.style.overflow = 'hidden';
 
-    function enableLoadingScreen() {
-      localStorage.removeItem('loadingScreenDisabled');
-      location.reload();
-    }
+        window.addEventListener('load', () => {
+          loadingScreen.classList.add('fade-out');
+          setTimeout(() => {
+            loadingScreen.style.display = 'none';
+            document.body.style.overflow = '';
+          }, 500);
+        });
+      } else {
+        document.body.style.overflow = '';
+      }
 
-    function disableLoadingScreen() {
-      localStorage.setItem('loadingScreenDisabled', 'true');
-      location.reload();
-    }
-  </script>
-</body>
+      function enableLoadingScreen() {
+        localStorage.removeItem('loadingScreenDisabled');
+        location.reload();
+      }
 
+      function disableLoadingScreen() {
+        localStorage.setItem('loadingScreenDisabled', 'true');
+        location.reload();
+      }
+    </script>
+  </body>
 </html>

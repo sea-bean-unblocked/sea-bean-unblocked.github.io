@@ -1,299 +1,589 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
+  <head>
+    <meta charset="UTF-8" />
     <title>College Courses - Standard Library</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+    <script
+      defer
+      data-domain="math-punch"
+      src="https://stats.senty.com.au/js/script.outbound-links.pageview-props.tagged-events.js"
+    ></script>
+    <script>
+      window.plausible =
+        window.plausible ||
+        function () {
+          (window.plausible.q = window.plausible.q || []).push(arguments);
+        };
+    </script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+    />
     <style>
-        :root { --accent: #4da6ff; }
-        body { margin: 0; font-family: 'Inter', sans-serif; background: #070b14; color: white; height: 100vh; overflow: hidden; }
-        
-        /* STARTUP PICKER */
-        #startupOverlay { position: fixed; inset: 0; background: #0b1220; display: none; align-items: center; justify-content: center; z-index: 5000; }
-        .startup-box { background: #111a2d; padding: 40px; border-radius: 20px; display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 20px; border: 1px solid rgba(255,255,255,0.05); width: 90%; max-width: 600px; }
-        .startup-btn { padding: 20px; border-radius: 14px; cursor: pointer; text-align: center; background: rgba(255,255,255,.05); border: 1px solid rgba(255,255,255,.1); transition: .25s; }
-        .startup-btn:hover { background: var(--accent); transform: translateY(-3px); color: #000; }
-        .count-pill { display: block; font-size: 12px; opacity: 0.6; margin-top: 5px; font-weight: 400; }
+      :root {
+        --accent: #4da6ff;
+      }
+      body {
+        margin: 0;
+        font-family: 'Inter', sans-serif;
+        background: #070b14;
+        color: white;
+        height: 100vh;
+        overflow: hidden;
+      }
 
-        /* TOP BAR */
-        .top-bar-container { position: fixed; top: 15px; left: 0; right: 0; display: flex; flex-direction: column; align-items: center; z-index: 20; gap: 8px; }
-        .search-bar { height: 50px; padding: 0 18px; display: flex; align-items: center; gap: 12px; background: rgba(255,255,255,.06); border-radius: 16px; border: 1px solid rgba(255,255,255,.08); backdrop-filter: blur(12px); }
-        .search-bar input { background: none; border: none; outline: none; color: white; font-size: 16px; width: 220px; }
-        #liveCount { font-size: 12px; background: var(--accent); color: #000; padding: 2px 8px; border-radius: 8px; font-weight: 800; }
-        #sysStatus { font-size: 10px; color: var(--accent); text-transform: uppercase; letter-spacing: 1.5px; font-weight: bold; height: 15px; transition: 0.3s; }
+      /* STARTUP PICKER */
+      #startupOverlay {
+        position: fixed;
+        inset: 0;
+        background: #0b1220;
+        display: none;
+        align-items: center;
+        justify-content: center;
+        z-index: 5000;
+      }
+      .startup-box {
+        background: #111a2d;
+        padding: 40px;
+        border-radius: 20px;
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+        gap: 20px;
+        border: 1px solid rgba(255, 255, 255, 0.05);
+        width: 90%;
+        max-width: 600px;
+      }
+      .startup-btn {
+        padding: 20px;
+        border-radius: 14px;
+        cursor: pointer;
+        text-align: center;
+        background: rgba(255, 255, 255, 0.05);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        transition: 0.25s;
+      }
+      .startup-btn:hover {
+        background: var(--accent);
+        transform: translateY(-3px);
+        color: #000;
+      }
+      .count-pill {
+        display: block;
+        font-size: 12px;
+        opacity: 0.6;
+        margin-top: 5px;
+        font-weight: 400;
+      }
 
-        /* SETTINGS */
-        #settingsBtn { position: fixed; top: 20px; right: 25px; width: 45px; height: 45px; border-radius: 12px; background: rgba(255,255,255,.1); backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,.15); display: flex; align-items: center; justify-content: center; cursor: pointer; z-index: 30; }
-        #settingsOverlay { position: fixed; inset: 0; background: rgba(0,0,0,.6); backdrop-filter: blur(8px); display: none; align-items: center; justify-content: center; z-index: 2000; }
-        .settings-panel { width: 340px; padding: 25px; border-radius: 18px; background: #101726; border: 1px solid rgba(255,255,255,.1); display: flex; flex-direction: column; gap: 20px; }
-        .setting-row { display: flex; justify-content: space-between; align-items: center; }
-        select { background: #1a2438; color: white; border: 1px solid #333; padding: 8px; border-radius: 8px; }
+      /* TOP BAR */
+      .top-bar-container {
+        position: fixed;
+        top: 15px;
+        left: 0;
+        right: 0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        z-index: 20;
+        gap: 8px;
+      }
+      .search-bar {
+        height: 50px;
+        padding: 0 18px;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        background: rgba(255, 255, 255, 0.06);
+        border-radius: 16px;
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        backdrop-filter: blur(12px);
+      }
+      .search-bar input {
+        background: none;
+        border: none;
+        outline: none;
+        color: white;
+        font-size: 16px;
+        width: 220px;
+      }
+      #liveCount {
+        font-size: 12px;
+        background: var(--accent);
+        color: #000;
+        padding: 2px 8px;
+        border-radius: 8px;
+        font-weight: 800;
+      }
+      #sysStatus {
+        font-size: 10px;
+        color: var(--accent);
+        text-transform: uppercase;
+        letter-spacing: 1.5px;
+        font-weight: bold;
+        height: 15px;
+        transition: 0.3s;
+      }
 
-        /* GRID */
-        #container { position: fixed; inset: 0; display: grid; grid-template-columns: repeat(auto-fill, 220px); justify-content: center; gap: 18px; padding-top: 110px; padding-left: 20px; padding-right: 20px; padding-bottom: 40px; overflow-y: auto; }
-        #container::-webkit-scrollbar { display: none; }
-        .zone-item { width: 220px; height: 175px; border-radius: 18px; position: relative; overflow: hidden; background: rgba(255,255,255,.06); cursor: pointer; transition: .25s; border: 1px solid transparent; }
-        .zone-item:hover { transform: translateY(-6px); border-color: var(--accent); }
-        .zone-item img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; filter: brightness(0.7); transition: 0.3s; }
-        .zone-item:hover img { filter: brightness(0.9); }
-        .zone-item button { position: absolute; bottom: 12px; left: 14px; background: none; border: none; color: white; font-size: 15px; font-weight: 700; text-shadow: 0 2px 12px rgba(0,0,0,0.8); pointer-events: none; width: 85%; text-align: left; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+      /* SETTINGS */
+      #settingsBtn {
+        position: fixed;
+        top: 20px;
+        right: 25px;
+        width: 45px;
+        height: 45px;
+        border-radius: 12px;
+        background: rgba(255, 255, 255, 0.1);
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 255, 255, 0.15);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        z-index: 30;
+      }
+      #settingsOverlay {
+        position: fixed;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.6);
+        backdrop-filter: blur(8px);
+        display: none;
+        align-items: center;
+        justify-content: center;
+        z-index: 2000;
+      }
+      .settings-panel {
+        width: 340px;
+        padding: 25px;
+        border-radius: 18px;
+        background: #101726;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+      }
+      .setting-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+      select {
+        background: #1a2438;
+        color: white;
+        border: 1px solid #333;
+        padding: 8px;
+        border-radius: 8px;
+      }
 
-        /* VIEWER */
-        #zoneViewer { position: fixed; inset: 0; background: #000; display: none; flex-direction: column; z-index: 1000; }
-        #zoneFrame { flex: 1; border: none; }
-        #closeBtn { position: absolute; top: 20px; right: 25px; width: 45px; height: 45px; border-radius: 12px; background: rgba(0,0,0,0.6); border: 1px solid rgba(255,255,255,0.2); display: flex; align-items: center; justify-content: center; cursor: pointer; z-index: 1001; color: white; }
-        #loaderBar { position: absolute; top: 0; left: 0; width: 0%; height: 4px; background: var(--accent); transition: width 0.2s; }
+      /* GRID */
+      #container {
+        position: fixed;
+        inset: 0;
+        display: grid;
+        grid-template-columns: repeat(auto-fill, 220px);
+        justify-content: center;
+        gap: 18px;
+        padding-top: 110px;
+        padding-left: 20px;
+        padding-right: 20px;
+        padding-bottom: 40px;
+        overflow-y: auto;
+      }
+      #container::-webkit-scrollbar {
+        display: none;
+      }
+      .zone-item {
+        width: 220px;
+        height: 175px;
+        border-radius: 18px;
+        position: relative;
+        overflow: hidden;
+        background: rgba(255, 255, 255, 0.06);
+        cursor: pointer;
+        transition: 0.25s;
+        border: 1px solid transparent;
+      }
+      .zone-item:hover {
+        transform: translateY(-6px);
+        border-color: var(--accent);
+      }
+      .zone-item img {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        filter: brightness(0.7);
+        transition: 0.3s;
+      }
+      .zone-item:hover img {
+        filter: brightness(0.9);
+      }
+      .zone-item button {
+        position: absolute;
+        bottom: 12px;
+        left: 14px;
+        background: none;
+        border: none;
+        color: white;
+        font-size: 15px;
+        font-weight: 700;
+        text-shadow: 0 2px 12px rgba(0, 0, 0, 0.8);
+        pointer-events: none;
+        width: 85%;
+        text-align: left;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
 
-        /* PARTNER POPUP */
-        #partnerPopup {
-            position: fixed;
-            inset: 0;
-            background: rgba(0, 0, 0, 0.65);
-            backdrop-filter: blur(10px);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            z-index: 9999;
-            animation: fadeInBg 0.4s ease;
+      /* VIEWER */
+      #zoneViewer {
+        position: fixed;
+        inset: 0;
+        background: #000;
+        display: none;
+        flex-direction: column;
+        z-index: 1000;
+      }
+      #zoneFrame {
+        flex: 1;
+        border: none;
+      }
+      #closeBtn {
+        position: absolute;
+        top: 20px;
+        right: 25px;
+        width: 45px;
+        height: 45px;
+        border-radius: 12px;
+        background: rgba(0, 0, 0, 0.6);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        z-index: 1001;
+        color: white;
+      }
+      #loaderBar {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 0%;
+        height: 4px;
+        background: var(--accent);
+        transition: width 0.2s;
+      }
+
+      /* PARTNER POPUP */
+      #partnerPopup {
+        position: fixed;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.65);
+        backdrop-filter: blur(10px);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 9999;
+        animation: fadeInBg 0.4s ease;
+      }
+      @keyframes fadeInBg {
+        from {
+          opacity: 0;
         }
-        @keyframes fadeInBg { from { opacity: 0; } to { opacity: 1; } }
-        .partner-card {
-            background: linear-gradient(135deg, #0f1c32, #111a2d);
-            border: 1px solid rgba(77, 166, 255, 0.35);
-            border-radius: 22px;
-            padding: 38px 44px;
-            max-width: 420px;
-            width: 90%;
-            text-align: center;
-            box-shadow: 0 0 60px rgba(77, 166, 255, 0.15), 0 20px 60px rgba(0,0,0,0.6);
-            animation: slideUp 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+        to {
+          opacity: 1;
         }
-        @keyframes slideUp { from { transform: translateY(30px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
-        .partner-icon {
-            width: 62px;
-            height: 62px;
-            border-radius: 16px;
-            background: linear-gradient(135deg, var(--accent), #0066cc);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin: 0 auto 20px;
-            font-size: 26px;
+      }
+      .partner-card {
+        background: linear-gradient(135deg, #0f1c32, #111a2d);
+        border: 1px solid rgba(77, 166, 255, 0.35);
+        border-radius: 22px;
+        padding: 38px 44px;
+        max-width: 420px;
+        width: 90%;
+        text-align: center;
+        box-shadow:
+          0 0 60px rgba(77, 166, 255, 0.15),
+          0 20px 60px rgba(0, 0, 0, 0.6);
+        animation: slideUp 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+      }
+      @keyframes slideUp {
+        from {
+          transform: translateY(30px);
+          opacity: 0;
         }
-        .partner-card h2 {
-            margin: 0 0 10px;
-            font-size: 20px;
-            font-weight: 700;
-            color: white;
-            letter-spacing: -0.3px;
+        to {
+          transform: translateY(0);
+          opacity: 1;
         }
-        .partner-card p {
-            margin: 0 0 28px;
-            font-size: 15px;
-            color: rgba(255,255,255,0.6);
-            line-height: 1.6;
-        }
-        .partner-card p span {
-            color: var(--accent);
-            font-weight: 700;
-        }
-        .partner-close-btn {
-            background: var(--accent);
-            color: #000;
-            border: none;
-            border-radius: 12px;
-            padding: 12px 32px;
-            font-size: 14px;
-            font-weight: 800;
-            cursor: pointer;
-            transition: 0.2s;
-            letter-spacing: 0.3px;
-        }
-        .partner-close-btn:hover { opacity: 0.85; transform: scale(1.03); }
+      }
+      .partner-icon {
+        width: 62px;
+        height: 62px;
+        border-radius: 16px;
+        background: linear-gradient(135deg, var(--accent), #0066cc);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto 20px;
+        font-size: 26px;
+      }
+      .partner-card h2 {
+        margin: 0 0 10px;
+        font-size: 20px;
+        font-weight: 700;
+        color: white;
+        letter-spacing: -0.3px;
+      }
+      .partner-card p {
+        margin: 0 0 28px;
+        font-size: 15px;
+        color: rgba(255, 255, 255, 0.6);
+        line-height: 1.6;
+      }
+      .partner-card p span {
+        color: var(--accent);
+        font-weight: 700;
+      }
+      .partner-close-btn {
+        background: var(--accent);
+        color: #000;
+        border: none;
+        border-radius: 12px;
+        padding: 12px 32px;
+        font-size: 14px;
+        font-weight: 800;
+        cursor: pointer;
+        transition: 0.2s;
+        letter-spacing: 0.3px;
+      }
+      .partner-close-btn:hover {
+        opacity: 0.85;
+        transform: scale(1.03);
+      }
     </style>
-</head>
-<body>
-
-<!-- PARTNER CREDIT POPUP -->
-<div id="partnerPopup">
-    <div class="partner-card">
+  </head>
+  <body>
+    <!-- PARTNER CREDIT POPUP -->
+    <div id="partnerPopup">
+      <div class="partner-card">
         <h2>A Special Thanks</h2>
         <p>Thanks to my partner <span>Sea Bean</span> for the games!</p>
-        <button class="partner-close-btn" onclick="document.getElementById('partnerPopup').style.display='none'">Let's Go &nbsp;→</button>
+        <button
+          class="partner-close-btn"
+          onclick="document.getElementById('partnerPopup').style.display = 'none'"
+        >
+          Let's Go &nbsp;→
+        </button>
+      </div>
     </div>
-</div>
 
-<div id="startupOverlay">
-    <div class="startup-box" id="startupBox"></div>
-</div>
+    <div id="startupOverlay">
+      <div class="startup-box" id="startupBox"></div>
+    </div>
 
-<div class="top-bar-container">
-    <div id="sysStatus"></div>
-    <div class="search-bar">
+    <div class="top-bar-container">
+      <div id="sysStatus"></div>
+      <div class="search-bar">
         <i class="fas fa-gamepad" style="opacity: 0.5"></i>
-        <input id="searchBar" placeholder="Search library..." oninput="filterZones()">
+        <input id="searchBar" placeholder="Search library..." oninput="filterZones()" />
         <span id="liveCount">0</span>
+      </div>
     </div>
-</div>
 
-<div id="settingsBtn" onclick="toggleSettings()">
-    <i class="fas fa-gear"></i>
-</div>
+    <div id="settingsBtn" onclick="toggleSettings()">
+      <i class="fas fa-gear"></i>
+    </div>
 
-<div id="settingsOverlay" onclick="toggleSettings(event)">
-    <div class="settings-panel" onclick="event.stopPropagation()">
+    <div id="settingsOverlay" onclick="toggleSettings(event)">
+      <div class="settings-panel" onclick="event.stopPropagation()">
         <h3>Settings</h3>
         <div class="setting-row">
-            <span>Accent Color</span>
-            <input type="color" id="colorPicker" onchange="changeColor(this.value)">
+          <span>Accent Color</span>
+          <input type="color" id="colorPicker" onchange="changeColor(this.value)" />
         </div>
         <div class="setting-row">
-            <span>Library Source</span>
-            <select id="sourceSelect" onchange="toggleSource(this.value)"></select>
+          <span>Library Source</span>
+          <select id="sourceSelect" onchange="toggleSource(this.value)"></select>
         </div>
+      </div>
     </div>
-</div>
 
-<div id="container"></div>
+    <div id="container"></div>
 
-<div id="zoneViewer">
-    <div id="closeBtn" onclick="closeViewer()"><i class="fas fa-times"></i></div>
-    <div id="loaderBar"></div>
-    <iframe id="zoneFrame"></iframe>
-</div>
+    <div id="zoneViewer">
+      <div id="closeBtn" onclick="closeViewer()"><i class="fas fa-times"></i></div>
+      <div id="loaderBar"></div>
+      <iframe id="zoneFrame"></iframe>
+    </div>
 
-<script>
-    const CONFIG = {
-        LOCAL_KEY: "saturn_nexus_storage_v14"
-    };
+    <script>
+      const CONFIG = {
+        LOCAL_KEY: 'saturn_nexus_storage_v14',
+      };
 
-    const sources = [
-        { name: "GN Math", type: "json", json: "https://cdn.jsdelivr.net/gh/gn-math/assets@latest/zones.json", cover: "https://cdn.jsdelivr.net/gh/gn-math/covers@main/", html: "https://cdn.jsdelivr.net/gh/gn-math/html@main/" }
-    ];
+      const sources = [
+        {
+          name: 'GN Math',
+          type: 'json',
+          json: 'https://cdn.jsdelivr.net/gh/gn-math/assets@latest/zones.json',
+          cover: 'https://cdn.jsdelivr.net/gh/gn-math/covers@main/',
+          html: 'https://cdn.jsdelivr.net/gh/gn-math/html@main/',
+        },
+      ];
 
-    let zones = [];
-    let currentSource = 0;
+      let zones = [];
+      let currentSource = 0;
 
-    function cleanDataProcess(rawFiles) {
-        const statusEl = document.getElementById("sysStatus");
-        statusEl.innerText = "Indexing Files...";
+      function cleanDataProcess(rawFiles) {
+        const statusEl = document.getElementById('sysStatus');
+        statusEl.innerText = 'Indexing Files...';
         const seen = new Set();
-        const processed = rawFiles.map(file => {
-            let cleanName = file.name.replace(/\.html$/i, '').replace(/[-_]/g, ' ').replace(/\b\w/g, char => char.toUpperCase());
+        const processed = rawFiles
+          .map((file) => {
+            let cleanName = file.name
+              .replace(/\.html$/i, '')
+              .replace(/[-_]/g, ' ')
+              .replace(/\b\w/g, (char) => char.toUpperCase());
             if (seen.has(cleanName)) return null;
             seen.add(cleanName);
             return { ...file, name: cleanName };
-        }).filter(item => item !== null);
+          })
+          .filter((item) => item !== null);
         processed.sort((a, b) => a.name.localeCompare(b.name));
-        statusEl.innerText = "Ready";
-        setTimeout(() => statusEl.innerText = "", 2000);
+        statusEl.innerText = 'Ready';
+        setTimeout(() => (statusEl.innerText = ''), 2000);
         return processed;
-    }
+      }
 
-    async function init() {
-        const savedColor = localStorage.getItem("accentColor") || "#4da6ff";
+      async function init() {
+        const savedColor = localStorage.getItem('accentColor') || '#4da6ff';
         document.documentElement.style.setProperty('--accent', savedColor);
-        document.getElementById("colorPicker").value = savedColor;
+        document.getElementById('colorPicker').value = savedColor;
 
-        const startupBox = document.getElementById("startupBox");
-        const sourceSelect = document.getElementById("sourceSelect");
-        startupBox.innerHTML = "";
-        sourceSelect.innerHTML = "";
-        
+        const startupBox = document.getElementById('startupBox');
+        const sourceSelect = document.getElementById('sourceSelect');
+        startupBox.innerHTML = '';
+        sourceSelect.innerHTML = '';
+
         sources.forEach((s, i) => {
-            const btn = document.createElement("div");
-            btn.className = "startup-btn";
-            btn.innerHTML = `<b>${s.name}</b><span class="count-pill" id="count-${i}">Enter Library</span>`;
-            btn.onclick = () => chooseStartup(i);
-            startupBox.appendChild(btn);
-            
-            const opt = document.createElement("option");
-            opt.value = i;
-            opt.innerText = s.name;
-            sourceSelect.appendChild(opt);
+          const btn = document.createElement('div');
+          btn.className = 'startup-btn';
+          btn.innerHTML = `<b>${s.name}</b><span class="count-pill" id="count-${i}">Enter Library</span>`;
+          btn.onclick = () => chooseStartup(i);
+          startupBox.appendChild(btn);
+
+          const opt = document.createElement('option');
+          opt.value = i;
+          opt.innerText = s.name;
+          sourceSelect.appendChild(opt);
         });
 
-        document.getElementById("startupOverlay").style.display = "flex";
-    }
+        document.getElementById('startupOverlay').style.display = 'flex';
+      }
 
-    async function loadSource() {
-        const container = document.getElementById("container");
-        container.innerHTML = "<p style='grid-column:1/-1; text-align:center; opacity:0.5; margin-top:50px;'>Syncing Library...</p>";
+      async function loadSource() {
+        const container = document.getElementById('container');
+        container.innerHTML =
+          "<p style='grid-column:1/-1; text-align:center; opacity:0.5; margin-top:50px;'>Syncing Library...</p>";
         const s = sources[currentSource];
-        
+
         try {
-            if (s.type === "json") {
-                const r = await fetch(s.json);
-                zones = await r.json();
-            }
-            displayZones(zones);
-        } catch (err) { 
-            console.error(err);
-            container.innerHTML = "<p style='grid-column:1/-1; text-align:center; color:red;'>Sync Failed. Check Internet.</p>"; 
+          if (s.type === 'json') {
+            const r = await fetch(s.json);
+            zones = await r.json();
+          }
+          displayZones(zones);
+        } catch (err) {
+          console.error(err);
+          container.innerHTML =
+            "<p style='grid-column:1/-1; text-align:center; color:red;'>Sync Failed. Check Internet.</p>";
         }
-    }
+      }
 
-    function displayZones(list) {
-        const container = document.getElementById("container");
-        container.innerHTML = "";
-        document.getElementById("liveCount").innerText = list.length;
+      function displayZones(list) {
+        const container = document.getElementById('container');
+        container.innerHTML = '';
+        document.getElementById('liveCount').innerText = list.length;
         const s = sources[currentSource];
-        
-        list.forEach(z => {
-            const d = document.createElement("div");
-            d.className = "zone-item";
-            d.onclick = () => openZone(z);
-            const img = document.createElement("img");
-            let rc = z.cover || "";
-            img.src = rc.includes("{COVER_URL}") ? rc.replace("{COVER_URL}", s.cover) : s.cover + rc.replace(/^\//, "");
-            const b = document.createElement("button");
-            b.textContent = z.name;
-            d.append(img, b);
-            container.appendChild(d);
+
+        list.forEach((z) => {
+          const d = document.createElement('div');
+          d.className = 'zone-item';
+          d.onclick = () => openZone(z);
+          const img = document.createElement('img');
+          let rc = z.cover || '';
+          img.src = rc.includes('{COVER_URL}')
+            ? rc.replace('{COVER_URL}', s.cover)
+            : s.cover + rc.replace(/^\//, '');
+          const b = document.createElement('button');
+          b.textContent = z.name;
+          d.append(img, b);
+          container.appendChild(d);
         });
-    }
+      }
 
-    function filterZones() {
-        const q = document.getElementById("searchBar").value.toLowerCase();
-        displayZones(zones.filter(z => z.name && z.name.toLowerCase().includes(q)));
-    }
+      function filterZones() {
+        const q = document.getElementById('searchBar').value.toLowerCase();
+        displayZones(zones.filter((z) => z.name && z.name.toLowerCase().includes(q)));
+      }
 
-    function openZone(z) {
+      function openZone(z) {
         const s = sources[currentSource];
-        let finalURL = z.isDirect ? z.url : (z.url.includes("{HTML_URL}") ? z.url.replace("{HTML_URL}", s.html) : s.html + z.url.replace(/^\//, ""));
-        document.getElementById("zoneViewer").style.display = "flex";
-        document.getElementById("loaderBar").style.width = "40%";
-        fetch(finalURL).then(r => r.text()).then(html => {
-            document.getElementById("loaderBar").style.width = "100%";
-            const doc = document.getElementById("zoneFrame").contentWindow.document;
-            doc.open(); doc.write(html); doc.close();
-            setTimeout(() => document.getElementById("loaderBar").style.width = "0%", 400);
-        }).catch(() => {
-            document.getElementById("zoneFrame").src = finalURL;
-            document.getElementById("loaderBar").style.width = "100%";
-        });
-    }
+        let finalURL = z.isDirect
+          ? z.url
+          : z.url.includes('{HTML_URL}')
+            ? z.url.replace('{HTML_URL}', s.html)
+            : s.html + z.url.replace(/^\//, '');
+        document.getElementById('zoneViewer').style.display = 'flex';
+        document.getElementById('loaderBar').style.width = '40%';
+        fetch(finalURL)
+          .then((r) => r.text())
+          .then((html) => {
+            document.getElementById('loaderBar').style.width = '100%';
+            const doc = document.getElementById('zoneFrame').contentWindow.document;
+            doc.open();
+            doc.write(html);
+            doc.close();
+            setTimeout(() => (document.getElementById('loaderBar').style.width = '0%'), 400);
+          })
+          .catch(() => {
+            document.getElementById('zoneFrame').src = finalURL;
+            document.getElementById('loaderBar').style.width = '100%';
+          });
+      }
 
-    function chooseStartup(idx) {
+      function chooseStartup(idx) {
         currentSource = idx;
-        localStorage.setItem("sourceIndex", idx);
-        document.getElementById("sourceSelect").value = idx;
-        document.getElementById("startupOverlay").style.display = "none";
+        localStorage.setItem('sourceIndex', idx);
+        document.getElementById('sourceSelect').value = idx;
+        document.getElementById('startupOverlay').style.display = 'none';
         loadSource();
-    }
+      }
 
-    function toggleSettings(e) {
-        const s = document.getElementById("settingsOverlay");
+      function toggleSettings(e) {
+        const s = document.getElementById('settingsOverlay');
         if (e && e.target !== s) return;
-        s.style.display = s.style.display === "flex" ? "none" : "flex";
-    }
+        s.style.display = s.style.display === 'flex' ? 'none' : 'flex';
+      }
 
-    function changeColor(c) { document.documentElement.style.setProperty('--accent', c); localStorage.setItem("accentColor", c); }
-    function toggleSource(v) { currentSource = parseInt(v); localStorage.setItem("sourceIndex", v); loadSource(); }
-    function closeViewer() { document.getElementById("zoneViewer").style.display = "none"; document.getElementById("zoneFrame").src = "about:blank"; }
+      function changeColor(c) {
+        document.documentElement.style.setProperty('--accent', c);
+        localStorage.setItem('accentColor', c);
+      }
+      function toggleSource(v) {
+        currentSource = parseInt(v);
+        localStorage.setItem('sourceIndex', v);
+        loadSource();
+      }
+      function closeViewer() {
+        document.getElementById('zoneViewer').style.display = 'none';
+        document.getElementById('zoneFrame').src = 'about:blank';
+      }
 
-    window.addEventListener('DOMContentLoaded', init);
-</script>
-</body>
+      window.addEventListener('DOMContentLoaded', init);
+    </script>
+  </body>
 </html>
