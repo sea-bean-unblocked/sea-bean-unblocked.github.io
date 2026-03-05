@@ -436,6 +436,7 @@
 
       let zones = [];
       let currentSource = 0;
+      let frameAdObserver = null;
 
       function cleanDataProcess(rawFiles) {
         const statusEl = document.getElementById('sysStatus');
@@ -530,6 +531,116 @@
         displayZones(zones.filter((z) => z.name && z.name.toLowerCase().includes(q)));
       }
 
+      function stripSidebarAds(targetDoc) {
+        if (!targetDoc) return;
+
+        const adSelectors = [
+          '#sidebarad1',
+          '#sidebarad2',
+          '.sidebar-frame',
+          '.sidebar-close',
+          '[id*="sidebarad"]',
+          '[class*="sidebarad"]',
+          'iframe[width="160"][height="600"]',
+        ];
+
+        targetDoc.querySelectorAll(adSelectors.join(',')).forEach((el) => el.remove());
+
+        targetDoc.querySelectorAll('style').forEach((styleTag) => {
+          const css = (styleTag.textContent || '').toLowerCase();
+          if (css.includes('#sidebarad1') || css.includes('#sidebarad2')) styleTag.remove();
+        });
+
+        targetDoc.querySelectorAll('script').forEach((scriptTag) => {
+          const src = (scriptTag.getAttribute('src') || '').toLowerCase();
+          const code = (scriptTag.textContent || '').toLowerCase();
+          if (
+            src.includes('googletagmanager.com/gtag/js') ||
+            code.includes('sidebarad1') ||
+            code.includes('sidebarad2') ||
+            code.includes('sidebar-frame') ||
+            code.includes('allow-popups-to-escape-sandbox')
+          ) {
+            scriptTag.remove();
+          }
+        });
+      }
+
+      function sanitizeFetchedHtml(html) {
+        try {
+          const parser = new DOMParser();
+          const parsed = parser.parseFromString(html, 'text/html');
+
+          stripSidebarAds(parsed);
+
+          const blockStyle = parsed.createElement('style');
+          blockStyle.textContent = `
+            #sidebarad1,
+            #sidebarad2,
+            .sidebar-frame,
+            .sidebar-close,
+            [id*="sidebarad"],
+            [class*="sidebarad"],
+            iframe[width="160"][height="600"] {
+              display: none !important;
+              visibility: hidden !important;
+            }
+          `;
+          parsed.head.appendChild(blockStyle);
+
+          return '<!doctype html>\n' + parsed.documentElement.outerHTML;
+        } catch (err) {
+          console.warn('HTML sanitize failed, blocking unsafe payload:', err);
+          return `<!doctype html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Blocked</title>
+    <style>
+      body {
+        margin: 0;
+        height: 100vh;
+        display: grid;
+        place-items: center;
+        background: #090f1d;
+        color: #dbe7ff;
+        font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+      }
+      .card {
+        width: min(560px, 92vw);
+        background: #111a2d;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 14px;
+        padding: 20px;
+      }
+      .title { font-weight: 800; margin-bottom: 8px; }
+      .muted { opacity: 0.8; line-height: 1.5; }
+    </style>
+  </head>
+  <body>
+    <div class="card">
+      <div class="title">This game page was blocked</div>
+      <div class="muted">Strict mode is enabled and this payload could not be sanitized safely.</div>
+    </div>
+  </body>
+</html>`;
+        }
+      }
+
+      function observeAndStripFrameAds(frameDoc) {
+        if (frameAdObserver) frameAdObserver.disconnect();
+        if (!frameDoc?.documentElement) return;
+
+        stripSidebarAds(frameDoc);
+
+        frameAdObserver = new MutationObserver(() => stripSidebarAds(frameDoc));
+        frameAdObserver.observe(frameDoc.documentElement, {
+          childList: true,
+          subtree: true,
+        });
+      }
+
       function openZone(z) {
         const s = sources[currentSource];
         let finalURL = z.isDirect
@@ -539,19 +650,77 @@
             : s.html + z.url.replace(/^\//, '');
         document.getElementById('zoneViewer').style.display = 'flex';
         document.getElementById('loaderBar').style.width = '40%';
+
         fetch(finalURL)
-          .then((r) => r.text())
+          .then((r) => {
+            if (!r.ok) throw new Error(`HTTP ${r.status}`);
+            return r.text();
+          })
           .then((html) => {
             document.getElementById('loaderBar').style.width = '100%';
             const doc = document.getElementById('zoneFrame').contentWindow.document;
+            const sanitizedHtml = sanitizeFetchedHtml(html);
+
             doc.open();
-            doc.write(html);
+            doc.write(sanitizedHtml);
             doc.close();
+
+            observeAndStripFrameAds(doc);
+
             setTimeout(() => (document.getElementById('loaderBar').style.width = '0%'), 400);
           })
-          .catch(() => {
-            document.getElementById('zoneFrame').src = finalURL;
-            document.getElementById('loaderBar').style.width = '100%';
+          .catch((err) => {
+            console.warn('Strict mode blocked unsanitized fallback:', err);
+            if (frameAdObserver) {
+              frameAdObserver.disconnect();
+              frameAdObserver = null;
+            }
+            const doc = document.getElementById('zoneFrame').contentWindow.document;
+            doc.open();
+            doc.write(`<!doctype html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Load blocked</title>
+    <style>
+      body {
+        margin: 0;
+        height: 100vh;
+        display: grid;
+        place-items: center;
+        background: #090f1d;
+        color: #dbe7ff;
+        font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+      }
+      .card {
+        width: min(620px, 92vw);
+        background: #111a2d;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 14px;
+        padding: 20px;
+      }
+      .title { font-weight: 800; margin-bottom: 8px; }
+      .muted { opacity: 0.8; line-height: 1.5; }
+      code {
+        display: inline-block;
+        background: rgba(255, 255, 255, 0.08);
+        border-radius: 8px;
+        padding: 2px 6px;
+        margin-top: 6px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="card">
+      <div class="title">Game load blocked in strict mode</div>
+      <div class="muted">This page was not loaded directly because unsanitized iframe fallback is disabled.</div>
+      <div class="muted" style="margin-top: 10px">URL:<br /><code>${finalURL}</code></div>
+    </div>
+  </body>
+</html>`);
+            doc.close();
+            document.getElementById('loaderBar').style.width = '0%';
           });
       }
 
@@ -579,6 +748,10 @@
         loadSource();
       }
       function closeViewer() {
+        if (frameAdObserver) {
+          frameAdObserver.disconnect();
+          frameAdObserver = null;
+        }
         document.getElementById('zoneViewer').style.display = 'none';
         document.getElementById('zoneFrame').src = 'about:blank';
       }
