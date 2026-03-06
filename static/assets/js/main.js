@@ -45,24 +45,26 @@ if (window.location.pathname === "/index.html" || window.location.pathname === "
     return options[randomNumber];
   }
 
-  // Cache DOM elements once
   const placeholder = document.getElementById("placeholder");
   const bar = document.querySelector(".browse-input");
   const search = document.getElementById("search");
 
   function setRandomPlaceholder() {
+    if (!placeholder) return;
     placeholder.textContent = getRandomOption();
   }
 
   setRandomPlaceholder();
 
-  bar.addEventListener("focus", () => {
-    search.style.marginLeft = "-367px";
-  });
+  if (bar && search) {
+    bar.addEventListener("focus", () => {
+      search.style.marginLeft = "-367px";
+    });
 
-  bar.addEventListener("blur", () => {
-    search.style.marginLeft = "-150px";
-  });
+    bar.addEventListener("blur", () => {
+      search.style.marginLeft = "-150px";
+    });
+  }
 }
 
 window.addEventListener("load", function() {

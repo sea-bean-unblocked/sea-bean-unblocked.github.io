@@ -4,17 +4,29 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Arctic 1.0</title>
-    <script
-      defer
-      data-domain="math-punch"
-      src="https://stats.senty.com.au/js/script.outbound-links.pageview-props.tagged-events.js"
-    ></script>
     <script>
-      window.plausible =
-        window.plausible ||
-        function () {
-          (window.plausible.q = window.plausible.q || []).push(arguments);
-        };
+      (function () {
+        let isTop = false;
+        try {
+          isTop = window.self === window.top;
+        } catch {
+          isTop = false;
+        }
+
+        if (!isTop) return;
+
+        window.plausible =
+          window.plausible ||
+          function () {
+            (window.plausible.q = window.plausible.q || []).push(arguments);
+          };
+
+        const tag = document.createElement('script');
+        tag.defer = true;
+        tag.dataset.domain = 'math-punch';
+        tag.src = 'https://stats.senty.com.au/js/script.outbound-links.pageview-props.tagged-events.js';
+        document.head.appendChild(tag);
+      })();
     </script>
     <link rel="stylesheet" href="/assets/css/app.css" />
     <link
@@ -34,7 +46,7 @@
         background-color: #111827;
       }
     </style>
-  </head>
+</head>
   <body class="flex items-center justify-center h-screen">
     <div class="container shadow-lg rounded-lg p-6 text-center" style="width: 500px">
       <h1 class="text-3xl font-bold text-white mb-4" style="font-family: poppins">Welcome</h1>

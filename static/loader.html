@@ -95,8 +95,85 @@
           transform: rotate(45deg) rotateX(-385deg) rotateY(385deg);
         }
       }
+
+      #mastery-banner {
+        position: fixed;
+        top: 52px;
+        right: 20px;
+        width: 728px;
+        height: 90px;
+        margin: 0;
+        padding: 0;
+        overflow: hidden;
+        z-index: 950;
+        display: flex;
+        align-items: flex-start;
+        justify-content: flex-end;
+        line-height: 0;
+        font-size: 0;
+      }
+
+      #mastery-banner iframe {
+        display: block;
+        width: 728px;
+        height: 90px;
+        margin: 0;
+        padding: 0;
+        border: 0;
+      }
+
+      .iframe-container {
+        margin-top: 0 !important;
+      }
+
+      .iframe-container iframe {
+        top: 142px;
+        bottom: auto;
+        height: calc(100vh - 142px);
+      }
+
+      #menu {
+        margin-top: 132px;
+      }
+
+      #sidebar {
+        padding-top: 146px;
+      }
+
+      @media (max-width: 767px) {
+        #mastery-banner {
+          top: 52px;
+          right: auto;
+          left: 50%;
+          transform: translateX(-50%);
+          width: 320px;
+          height: 50px;
+        }
+
+        #mastery-banner iframe {
+          width: 320px;
+          height: 50px;
+        }
+
+        .iframe-container {
+          margin-top: 0 !important;
+        }
+
+        .iframe-container iframe {
+          top: 102px;
+          height: calc(100vh - 102px);
+        }
+
+        #menu {
+          margin-top: 92px;
+        }
+
+        #sidebar {
+          padding-top: 106px;
+        }
+      }
     </style>
-  </head>
+</head>
 
   <body>
     <div id="loading-screen" style="display: none">
@@ -134,6 +211,7 @@
         <i data-lucide="menu" class="icon"></i>
       </button>
     </div>
+    <div id="mastery-banner"></div>
     <div id="menu">
       <button class="btn btn-sm" onclick="exit()" style="margin-top: -46px">
         <i data-lucide="house" class="icon" style="width: 17px"></i>Return</button
@@ -177,6 +255,73 @@
     <script src="/assets/js/loader.js?v=3"></script>
     <script src="/assets/js/tabs.js?v=3"></script>
     <script>
+      (function () {
+        const banner = document.getElementById('mastery-banner');
+        if (!banner) return;
+
+        const isMobile = window.matchMedia('(max-width: 767px)').matches;
+        const unit = isMobile
+          ? { key: '9fce6c42f0388b8e0dbd8388eb490ac7', width: 320, height: 50 }
+          : { key: '45a8c2f1517f61cbabc897106f47084b', width: 728, height: 90 };
+
+        function normalizeBannerFrame() {
+          const iframe = banner.querySelector('iframe');
+          if (!iframe) return;
+
+          iframe.style.display = 'block';
+          iframe.style.width = unit.width + 'px';
+          iframe.style.height = unit.height + 'px';
+          iframe.style.margin = '0';
+          iframe.style.padding = '0';
+          iframe.style.border = '0';
+
+          function normalizeInner() {
+            try {
+              const doc = iframe.contentDocument || iframe.contentWindow.document;
+              if (!doc) return;
+              if (doc.documentElement) {
+                doc.documentElement.style.margin = '0';
+                doc.documentElement.style.padding = '0';
+                doc.documentElement.style.overflow = 'hidden';
+              }
+              if (doc.body) {
+                doc.body.style.margin = '0';
+                doc.body.style.padding = '0';
+                doc.body.style.overflow = 'hidden';
+              }
+            } catch (e) {}
+          }
+
+          iframe.addEventListener('load', normalizeInner, { once: true });
+          normalizeInner();
+        }
+
+        const observer = new MutationObserver(normalizeBannerFrame);
+        observer.observe(banner, { childList: true, subtree: true });
+
+        window.setTimeout(function () {
+          const optionsScript = document.createElement('script');
+          optionsScript.type = 'text/javascript';
+          optionsScript.text = `
+            atOptions = {
+              'key': '${unit.key}',
+              'format': 'iframe',
+              'height': ${unit.height},
+              'width': ${unit.width},
+              'params': {}
+            };
+          `;
+
+          const invokeScript = document.createElement('script');
+          invokeScript.type = 'text/javascript';
+          invokeScript.src = `https://www.highperformanceformat.com/${unit.key}/invoke.js`;
+
+          banner.appendChild(optionsScript);
+          banner.appendChild(invokeScript);
+          normalizeBannerFrame();
+        }, 5000);
+      })();
+
       startInterval();
     </script>
     <script>
