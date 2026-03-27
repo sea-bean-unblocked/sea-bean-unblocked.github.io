@@ -10,9 +10,9 @@
     "url": "window.location.href='/arcticmathsearch.html'"
   },
   {
-    "name": "Pinterest (NOT WORKING)",
+    "name": "TraxMojo (WORKING)",
     "imageUrl": "/assets/img/pinterest.webp",
-    "url": "openAg('https://www.pinterest.com')"
+    "url": "openAg('https://traxmojo.com')"
   },
   {
     "name": "Partners (WORKING)",
