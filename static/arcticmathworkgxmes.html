@@ -332,12 +332,8 @@
         animation: fadeInBg 0.4s ease;
       }
       @keyframes fadeInBg {
-        from {
-          opacity: 0;
-        }
-        to {
-          opacity: 1;
-        }
+        from { opacity: 0; }
+        to { opacity: 1; }
       }
       .partner-card {
         background: linear-gradient(135deg, #0f1c32, #111a2d);
@@ -353,14 +349,8 @@
         animation: slideUp 0.45s cubic-bezier(0.22, 1, 0.36, 1);
       }
       @keyframes slideUp {
-        from {
-          transform: translateY(30px);
-          opacity: 0;
-        }
-        to {
-          transform: translateY(0);
-          opacity: 1;
-        }
+        from { transform: translateY(30px); opacity: 0; }
+        to { transform: translateY(0); opacity: 1; }
       }
       .partner-icon {
         width: 62px;
@@ -408,7 +398,7 @@
       }
     </style>
     <script src="/assets/js/top-frame.js?v=9"></script>
-</head>
+  </head>
   <body>
     <!-- PARTNER CREDIT POPUP -->
     <div id="partnerPopup">
@@ -613,12 +603,49 @@
         });
       }
 
+      // ✅ NEW: Injects popup blocker — allows first ad, blocks re-triggers on tab switch
+      function injectPopupBlocker(docHead) {
+        const blocker = docHead.ownerDocument.createElement('script');
+        blocker.textContent = `
+          (function() {
+            let adFired = false;
+            const _open = window.open.bind(window);
+
+            window.open = function(url, target, features) {
+              if (!adFired) {
+                // Allow the FIRST popup (the ad)
+                adFired = true;
+                return _open(url, target, features);
+              }
+              // Block all subsequent popups
+              return null;
+            };
+
+            // After a short delay, kill blur/visibilitychange ad retriggers
+            // These are what cause the ad to re-fire when switching tabs on desktop
+            setTimeout(function() {
+              window.addEventListener('visibilitychange', function(e) {
+                e.stopImmediatePropagation();
+              }, true);
+              window.addEventListener('blur', function(e) {
+                e.stopImmediatePropagation();
+              }, true);
+            }, 3000);
+          })();
+        `;
+        blocker.setAttribute('data-injected', 'popup-blocker');
+        docHead.insertBefore(blocker, docHead.firstChild);
+      }
+
       function sanitizeFetchedHtml(html) {
         try {
           const parser = new DOMParser();
           const parsed = parser.parseFromString(html, 'text/html');
 
           stripSidebarAds(parsed);
+
+          // ✅ Inject popup blocker before anything else runs
+          injectPopupBlocker(parsed.head);
 
           const blockStyle = parsed.createElement('style');
           blockStyle.textContent = `
