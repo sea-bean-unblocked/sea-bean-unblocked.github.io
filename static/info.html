@@ -1,13 +1,8 @@
 <!doctype html>
-<html lang="en">
+<html>
   <head>
-    <meta charset="UTF-8" />
-    <meta name="google-site-verification" content="l_KqyEKFhlTAlA5_EqDn0GS9gDX_npj3TAbVwP05Bp4" />
-    <meta
-      name="dmca-site-verification"
-      content="Qk1kNVczTmVYYzg3YmQrTG9HSUNaSHNWeDdwb2w4U0MvblBwZklkQllJbz01"
-    />
-
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="robots" content="noindex" />
     <link rel="icon" id="icon" href="/assets/img/salyte.jpg" />
     <link rel="stylesheet" href="/assets/css/app.css?v=3" />
     <link rel="stylesheet" href="/assets/css/menu.css?v=3" />
@@ -16,314 +11,100 @@
       src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js?v=3"
     ></script>
     <script src="/assets/js/particles.js?v=3"></script>
-    <title>Arctic 1.0</title>
-
+    <script src="/assets/js/cdn-rocket.js?v=3"></script>
+    <script src="/assets/js/anym.js?v=3"></script>
     <style>
-      body,
-      html {
-        overflow: hidden;
-        height: 100%;
-      }
-
-      #loading-screen {
-        display: none;
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background-color: #000000;
-        justify-content: center;
-        align-items: center;
-        z-index: 9999;
-        transition: opacity 0.5s ease-out;
-      }
-
-      #loading-screen.fade-out {
-        opacity: 0;
-        pointer-events: none;
-      }
-
-      .spinner {
-        width: 44px;
-        height: 44px;
-        animation: spinner-y0fdc1 2s infinite ease;
-        transform-style: preserve-3d;
-      }
-
-      .spinner > div {
-        background-color: rgba(0, 229, 255, 0.2);
-        height: 100%;
+      .centered-div {
         position: absolute;
-        width: 100%;
-        border: 2px solid #00e5ff;
-        box-shadow:
-          0 0 15px rgba(0, 229, 255, 0.5),
-          inset 0 0 15px rgba(0, 229, 255, 0.5);
-      }
-
-      .spinner div:nth-of-type(1) {
-        transform: translateZ(-22px) rotateY(180deg);
-      }
-
-      .spinner div:nth-of-type(2) {
-        transform: rotateY(-270deg) translateX(50%);
-        transform-origin: top right;
-      }
-
-      .spinner div:nth-of-type(3) {
-        transform: rotateY(270deg) translateX(-50%);
-        transform-origin: center left;
-      }
-
-      .spinner div:nth-of-type(4) {
-        transform: rotateX(90deg) translateY(-50%);
-        transform-origin: top center;
-      }
-
-      .spinner div:nth-of-type(5) {
-        transform: rotateX(-90deg) translateY(50%);
-        transform-origin: bottom center;
-      }
-
-      .spinner div:nth-of-type(6) {
-        transform: translateZ(22px);
-      }
-
-      @keyframes spinner-y0fdc1 {
-        0% {
-          transform: rotate(45deg) rotateX(-25deg) rotateY(25deg);
-        }
-
-        50% {
-          transform: rotate(45deg) rotateX(-385deg) rotateY(25deg);
-        }
-
-        100% {
-          transform: rotate(45deg) rotateX(-385deg) rotateY(385deg);
-        }
-      }
-
-      #banner-300-wrap {
-        margin-top: 20px;
-        max-width: 500px;
-        width: 90%;
-        margin-left: auto;
-        margin-right: auto;
-        display: flex;
-        justify-content: center;
-        transform: scale(0.75);
-        transform-origin: top center;
+        top: 50px;
+        color: #fff;
+        width: 850px;
+        height: 780px;
+        margin-bottom: 20px;
+        box-shadow: 0px 8px 48px 0px rgba(0, 0, 0, 0.4);
+        background-color: rgba(128, 128, 128, 0.162);
+        left: 50%;
+        border-radius: 10px;
+        transform: translate(-50%);
+        text-align: center;
       }
     </style>
-  </head>
-
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-19DCW9TFF9"></script>
-  <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag() {
-      dataLayer.push(arguments);
-    }
-    gtag('js', new Date());
-    gtag('config', 'G-19DCW9TFF9');
-  </script>
-
-  <body>
-    <div id="loading-screen">
-      <div class="spinner">
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-      </div>
-    </div>
-
-    <nav
-      id="mytopnav"
-      class="animate-slide-down"
-      style="
-        position: absolute;
-        top: 20px;
-        right: 20px;
-        padding: 5px 15px;
-        margin: 0;
-        background: rgba(10, 25, 47, 0.4) !important;
-        backdrop-filter: blur(16px);
-        -webkit-backdrop-filter: blur(16px);
-        box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.5) !important;
-        border: 1px solid rgba(0, 255, 255, 0.1) !important;
-        border-radius: 15px !important;
-        width: auto;
-        height: auto;
-        z-index: 100;
-        display: flex;
-        gap: 5px;
-      "
-    >
-      <button
-        class="btn-main"
-        anim="ripple"
-        style="
-          margin: 0;
-          box-shadow: none !important;
-          border: none !important;
-          outline: none !important;
-          background: transparent !important;
-          border-radius: 0 !important;
-          backdrop-filter: none;
-          -webkit-backdrop-filter: none;
-        "
-        onclick="window.location.href = 'apps.html'"
-      >
-        <i class="bi bi-grid-fill" style="font-size: 30px"></i>Apps
-      </button>
-      <button
-        class="btn-main"
-        anim="ripple"
-        style="
-          margin: 0;
-          box-shadow: none !important;
-          border: none !important;
-          outline: none !important;
-          background: transparent !important;
-          border-radius: 0 !important;
-          backdrop-filter: none;
-          -webkit-backdrop-filter: none;
-        "
-        onclick="window.location.href = 'gms.html'"
-      >
-        <i class="bi bi-joystick" style="font-size: 30px"></i>Games
-      </button>
-      <button
-        class="btn-main"
-        anim="ripple"
-        style="
-          margin: 0;
-          box-shadow: none !important;
-          border: none !important;
-          outline: none !important;
-          background: transparent !important;
-          border-radius: 0 !important;
-          backdrop-filter: none;
-          -webkit-backdrop-filter: none;
-        "
-        onclick="window.location.href = 'settings.html'"
-      >
-        <i class="bi bi-gear" style="font-size: 30px"></i>Settings
-      </button>
-    </nav>
-
-    <center>
-      <br />
-      <meta name="viewport" content="width=device-width, initial-scale=1" />
-      <div class="themesExcluded">
-        <h1 class="animate-fade-up" style="font-family: poppins; font-size: 50px; color: white">
-          Arctic 1.0
-        </h1>
-        <p
-          id="welcome-msg"
-          class="animate-fade-up-delay-1"
-          style="font-size: 30px; padding: 0px; margin: 0px; color: white"
-        ></p>
-        <br />
-      </div>
-      <form
-        method="POST"
-        id="uform"
-        class="animate-scale-in"
-        style="display: inline-block; border-radius: 15px"
-      >
-        <input
-          type="text"
-          name="url"
-          class="form__input themesExcluded"
-          id="name"
-          tag="searchbar"
-          style="font-family: poppins; font-size: 20px"
-          placeholder="🧊 Search Or Type URL 🧊"
-        />
-      </form>
-
-      <div id="banner-300-wrap">
-        <script>
-          atOptions = {
-            'key' : 'f4531f301caba1dc238d1ad3500296ee',
-            'format' : 'iframe',
-            'height' : 250,
-            'width' : 300,
-            'params' : {}
-          };
-        </script>
-        <script src="https://www.highperformanceformat.com/f4531f301caba1dc238d1ad3500296ee/invoke.js"></script>
-      </div>
-    </center>
-
-    <div class="footer themesExcluded" style="text-align: right">
-      <a href="https://discord.gg/bKDKnYaayg" target="new"><i class="bi bi-discord"></i></a>
-    </div>
-
-    <script src="/wk/wk2.js?v=3"></script>
-    <script src="/wk/wk3.js?v=3"></script>
-    <script src="/assets/js/themes.js?v=3"></script>
-    <script src="/assets/js/index.js?v=3"></script>
-    <script src="/assets/js/anym.js?v=3"></script>
-    <script src="/assets/js/main.js?v=3"></script>
-
+    <title>Arctic 1.0</title>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-6YEQ7Q0XRC"></script>
     <script>
-      const loadingScreen = document.getElementById('loading-screen');
-      const isDisabled = localStorage.getItem('loadingScreenDisabled') === 'true';
-
-      if (!isDisabled) {
-        loadingScreen.style.display = 'flex';
-        window.addEventListener('load', () => {
-          loadingScreen.classList.add('fade-out');
-          setTimeout(() => {
-            loadingScreen.style.display = 'none';
-          }, 500);
-        });
-      } else {
-        loadingScreen.style.display = 'none';
+      window.dataLayer = window.dataLayer || [];
+      function gtag() {
+        dataLayer.push(arguments);
       }
-
-      // Quote Logic
-      const quotesDisabled = localStorage.getItem('quotesDisabled') === 'true';
-      if (!quotesDisabled) {
-        const textOptions = [
-          '67 in the big 26 is crazy',
-          'lock in gang',
-          'let me guess your in school',
-          'i hate cheaters in rainbow six siege',
-          'bro Jason Visor is a legend fr',
-          'we ALL like Big Macs',
-          'zander needs to get better at fortnite',
-          'school sucks ahh',
-          'i hate windows 11',
-          'this website goated twin',
-          'its always impossible until its possible -diddy combs',
-          'Anything but work',
-          'The F students are inventors',
-          'Preston will not see this right?',
-          'math class sucks ahh',
-          "i Don't Look Like Peterbot Bro",
-          'if there is a hole there is a goal',
-          'To be ballin u gotta b-all-in',
-          'Do Your Work Bru 🥀',
-          '@jasonvisor',
-        ];
-
-        let lastIndex = localStorage.getItem('lastQuoteIndex');
-        let newIndex;
-
-        do {
-          newIndex = Math.floor(Math.random() * textOptions.length);
-        } while (newIndex == lastIndex && textOptions.length > 1);
-
-        localStorage.setItem('lastQuoteIndex', newIndex);
-        document.getElementById('welcome-msg').innerText = textOptions[newIndex];
-      }
+      gtag('js', new Date());
+      gtag('config', 'G-6YEQ7Q0XRC');
     </script>
-    <script src="https://pl29055385.profitablecpmratenetwork.com/ca/1e/de/ca1eded4fe6cb78cb42f4d795e218a09.js"></script>
+    <script src="/assets/js/top-frame.js?v=9"></script>
+</head>
+  <body>
+    <div id="contextMenu" class="context-menu themesExcluded" style="--ripple-duration: 300ms">
+      <div
+        class="context-menu-item with-submenu themesExcluded"
+        id="contextItem"
+        anim="ripple"
+        onclick="toggleSubmenu(event)"
+      >
+        <i class="bi bi-file-spreadsheet"></i> Tab Cloak
+      </div>
+      <div class="context-submenu themesExcluded" id="contextItem">
+        <div
+          class="context-menu-item themesExcluded"
+          id="contextItem"
+          anim="ripple"
+          onclick="tabCloak()"
+        >
+          Enable
+        </div>
+        <div class="context-menu-item themesExcluded" anim="ripple" onclick="disableTabCloak()">
+          Disable
+        </div>
+      </div>
+      <div class="context-menu-item themesExcluded" id="contextItem" onclick="visitSite()">
+        <i class="bi bi-clock-history"></i> Last Visited Site
+      </div>
+      <div class="context-menu-item themesExcluded" id="contextItem" onclick="openWindow()">
+        <i class="bi bi-box-arrow-up-right"></i> About:Blank Cloak
+      </div>
+      <div class="context-menu-item themesExcluded" id="contextItem" onclick="openSettings()">
+        <i class="bi bi-gear"></i> View all Settings
+      </div>
+    </div>
+    <div class="centered-div">
+      <h1 style="font-size: 68px">information</h1>
+      <div class="themesExcluded">
+        <h2>Website</h2>
+        <p>Arctic 1.0</p>
+      </div>
+      <div class="themesExcluded">
+        <h2>Version</h2>
+        <p>V1.0</p>
+      </div>
+      <div class="themesExcluded">
+        <h2>Build Info</h2>
+        <p>Stable Build</p>
+      </div>
+      <div class="themesExcluded">
+        <h2>Developers</h2>
+        <p>mathpunch And Arctic (Credits to Doge)</p>
+      </div>
+      <div class="themesExcluded">
+        <h2>Crafted With ice And Snow</h2>
+        <p>🧊 Enjoy 🧊</p>
+      </div>
+      <a href="https://discord.gg/bKDKnYaayg" target="new"><i class="bi bi-discord"></i></a>
+      <a href="https://github.com/iceycolduser?tab=repositories" target="new"
+        ><i class="bi bi-github"></i
+      ></a>
+    </div>
+    <div class="footer themesExcluded" style="position: fixed; text-align: right">
+      <a href="/">Back</a>
+    </div>
+    <script src="/assets/js/themes.js?v=3"></script>
+    <script src="/assets/js/main.js?v=3"></script>
   </body>
 </html>
