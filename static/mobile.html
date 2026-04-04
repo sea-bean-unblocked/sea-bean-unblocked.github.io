@@ -104,11 +104,18 @@
         }
       }
 
-      /* 300x250 Banner */
+      /* Banner container mimicking the original native ad layout */
       #banner-300-wrap {
-        margin-top: 16px;
+        margin-top: 20px;
+        max-width: 500px;
+        width: 90%;
+        margin-left: auto;
+        margin-right: auto;
         display: flex;
         justify-content: center;
+        /* Matching the scale and origin of the previous native ad */
+        transform: scale(0.75);
+        transform-origin: top center;
       }
     </style>
   </head>
@@ -282,7 +289,7 @@
         loadingScreen.style.display = 'none';
       }
 
-      // Quote Logic: Prevents repeats on refresh
+      // Quote Logic
       const quotesDisabled = localStorage.getItem('quotesDisabled') === 'true';
       if (!quotesDisabled) {
         const textOptions = [
