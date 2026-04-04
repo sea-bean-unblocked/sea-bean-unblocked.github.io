@@ -33,7 +33,6 @@
         overflow: hidden;
       }
 
-      /* STARTUP PICKER */
       #startupOverlay {
         position: fixed;
         inset: 0;
@@ -76,7 +75,6 @@
         font-weight: 400;
       }
 
-      /* TOP BAR */
       .top-bar-container {
         position: fixed;
         top: 15px;
@@ -137,22 +135,12 @@
       }
 
       @media (max-width: 1200px) {
-        .top-bar-container {
-          width: calc(100% - 20px);
-        }
-        .top-bar-row {
-          flex-direction: column;
-          align-items: flex-start;
-        }
-        .search-bar {
-          width: min(420px, 100%);
-        }
-        #container {
-          padding-top: 200px;
-        }
+        .top-bar-container { width: calc(100% - 20px); }
+        .top-bar-row { flex-direction: column; align-items: flex-start; }
+        .search-bar { width: min(420px, 100%); }
+        #container { padding-top: 200px; }
       }
 
-      /* SETTINGS */
       #settingsBtn {
         position: fixed;
         top: 20px;
@@ -189,20 +177,9 @@
         flex-direction: column;
         gap: 20px;
       }
-      .setting-row {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-      }
-      select {
-        background: #1a2438;
-        color: white;
-        border: 1px solid #333;
-        padding: 8px;
-        border-radius: 8px;
-      }
+      .setting-row { display: flex; justify-content: space-between; align-items: center; }
+      select { background: #1a2438; color: white; border: 1px solid #333; padding: 8px; border-radius: 8px; }
 
-      /* GRID */
       #container {
         position: fixed;
         inset: 0;
@@ -216,9 +193,7 @@
         padding-bottom: 40px;
         overflow-y: auto;
       }
-      #container::-webkit-scrollbar {
-        display: none;
-      }
+      #container::-webkit-scrollbar { display: none; }
       .zone-item {
         width: 220px;
         height: 175px;
@@ -230,10 +205,7 @@
         transition: 0.25s;
         border: 1px solid transparent;
       }
-      .zone-item:hover {
-        transform: translateY(-6px);
-        border-color: var(--accent);
-      }
+      .zone-item:hover { transform: translateY(-6px); border-color: var(--accent); }
       .zone-item img {
         position: absolute;
         inset: 0;
@@ -243,9 +215,7 @@
         filter: brightness(0.7);
         transition: 0.3s;
       }
-      .zone-item:hover img {
-        filter: brightness(0.9);
-      }
+      .zone-item:hover img { filter: brightness(0.9); }
       .zone-item button {
         position: absolute;
         bottom: 12px;
@@ -264,7 +234,6 @@
         white-space: nowrap;
       }
 
-      /* VIEWER */
       #zoneViewer {
         position: fixed;
         inset: 0;
@@ -273,10 +242,7 @@
         flex-direction: column;
         z-index: 1000;
       }
-      #zoneFrame {
-        flex: 1;
-        border: none;
-      }
+      #zoneFrame { flex: 1; border: none; }
       #closeBtn {
         position: absolute;
         top: 20px;
@@ -303,7 +269,6 @@
         transition: width 0.2s;
       }
 
-      /* PARTNER POPUP */
       #partnerPopup {
         position: fixed;
         inset: 0;
@@ -313,11 +278,6 @@
         align-items: center;
         justify-content: center;
         z-index: 9999;
-        animation: fadeInBg 0.4s ease;
-      }
-      @keyframes fadeInBg {
-        from { opacity: 0; }
-        to { opacity: 1; }
       }
       .partner-card {
         background: linear-gradient(135deg, #0f1c32, #111a2d);
@@ -327,29 +287,10 @@
         max-width: 420px;
         width: 90%;
         text-align: center;
-        box-shadow: 0 0 60px rgba(77, 166, 255, 0.15), 0 20px 60px rgba(0, 0, 0, 0.6);
-        animation: slideUp 0.45s cubic-bezier(0.22, 1, 0.36, 1);
       }
-      @keyframes slideUp {
-        from { transform: translateY(30px); opacity: 0; }
-        to { transform: translateY(0); opacity: 1; }
-      }
-      .partner-card h2 {
-        margin: 0 0 10px;
-        font-size: 20px;
-        font-weight: 700;
-        color: white;
-      }
-      .partner-card p {
-        margin: 0 0 28px;
-        font-size: 15px;
-        color: rgba(255, 255, 255, 0.6);
-        line-height: 1.6;
-      }
-      .partner-card p span {
-        color: var(--accent);
-        font-weight: 700;
-      }
+      .partner-card h2 { margin: 0 0 10px; font-size: 20px; color: white; }
+      .partner-card p { margin: 0 0 28px; font-size: 15px; color: rgba(255, 255, 255, 0.6); }
+      .partner-card p span { color: var(--accent); font-weight: 700; }
       .partner-close-btn {
         background: var(--accent);
         color: #000;
@@ -359,11 +300,6 @@
         font-size: 14px;
         font-weight: 800;
         cursor: pointer;
-        transition: 0.2s;
-      }
-      .partner-close-btn:hover {
-        opacity: 0.85;
-        transform: scale(1.03);
       }
     </style>
   </head>
@@ -372,10 +308,7 @@
       <div class="partner-card">
         <h2>A Special Thanks</h2>
         <p>Thanks to my partner <span>Sea Bean</span> for the games!</p>
-        <button
-          class="partner-close-btn"
-          onclick="document.getElementById('partnerPopup').style.display = 'none'"
-        >
+        <button class="partner-close-btn" onclick="document.getElementById('partnerPopup').style.display = 'none'">
           Let's Go &nbsp;→
         </button>
       </div>
@@ -423,10 +356,6 @@
     </div>
 
     <script>
-      const CONFIG = {
-        LOCAL_KEY: 'saturn_nexus_storage_v14',
-      };
-
       const sources = [
         {
           name: 'GN Math',
@@ -444,41 +373,30 @@
         const savedColor = localStorage.getItem('accentColor') || '#4da6ff';
         document.documentElement.style.setProperty('--accent', savedColor);
         document.getElementById('colorPicker').value = savedColor;
-
         const startupBox = document.getElementById('startupBox');
         const sourceSelect = document.getElementById('sourceSelect');
         startupBox.innerHTML = '';
         sourceSelect.innerHTML = '';
-
         sources.forEach((s, i) => {
           const btn = document.createElement('div');
           btn.className = 'startup-btn';
           btn.innerHTML = `<b>${s.name}</b><span class="count-pill">Enter Library</span>`;
           btn.onclick = () => chooseStartup(i);
           startupBox.appendChild(btn);
-
           const opt = document.createElement('option');
-          opt.value = i;
-          opt.innerText = s.name;
+          opt.value = i; opt.innerText = s.name;
           sourceSelect.appendChild(opt);
         });
-
         document.getElementById('startupOverlay').style.display = 'flex';
       }
 
       async function loadSource() {
-        const container = document.getElementById('container');
-        container.innerHTML = "<p style='grid-column:1/-1; text-align:center; opacity:0.5; margin-top:50px;'>Syncing Library...</p>";
         const s = sources[currentSource];
-
         try {
           const r = await fetch(s.json);
           zones = await r.json();
           displayZones(zones);
-        } catch (err) {
-          console.error(err);
-          container.innerHTML = "<p style='grid-column:1/-1; text-align:center; color:red;'>Sync Failed. Check Internet.</p>";
-        }
+        } catch (err) { console.error(err); }
       }
 
       function displayZones(list) {
@@ -486,16 +404,13 @@
         container.innerHTML = '';
         document.getElementById('liveCount').innerText = list.length;
         const s = sources[currentSource];
-
         list.forEach((z) => {
           const d = document.createElement('div');
           d.className = 'zone-item';
           d.onclick = () => openZone(z);
           const img = document.createElement('img');
           let rc = z.cover || '';
-          img.src = rc.includes('{COVER_URL}')
-            ? rc.replace('{COVER_URL}', s.cover)
-            : s.cover + rc.replace(/^\//, '');
+          img.src = rc.includes('{COVER_URL}') ? rc.replace('{COVER_URL}', s.cover) : s.cover + rc.replace(/^\//, '');
           const b = document.createElement('button');
           b.textContent = z.name;
           d.append(img, b);
@@ -510,25 +425,26 @@
 
       function openZone(z) {
         const s = sources[currentSource];
-        let finalURL = z.isDirect
-          ? z.url
-          : z.url.includes('{HTML_URL}')
-            ? z.url.replace('{HTML_URL}', s.html)
-            : s.html + z.url.replace(/^\//, '');
-            
-        document.getElementById('zoneViewer').style.display = 'flex';
-        document.getElementById('loaderBar').style.width = '100%';
-        document.getElementById('zoneFrame').src = finalURL;
+        let finalURL = z.isDirect ? z.url : z.url.includes('{HTML_URL}') ? z.url.replace('{HTML_URL}', s.html) : s.html + z.url.replace(/^\//, '');
         
-        setTimeout(() => {
-          document.getElementById('loaderBar').style.width = '0%';
-        }, 600);
+        document.getElementById('zoneViewer').style.display = 'flex';
+        document.getElementById('loaderBar').style.width = '40%';
+
+        fetch(finalURL)
+          .then(r => r.text())
+          .then(html => {
+            document.getElementById('loaderBar').style.width = '100%';
+            const doc = document.getElementById('zoneFrame').contentWindow.document;
+            doc.open();
+            doc.write(html); // Just writing the HTML directly now (No Ad Stripping)
+            doc.close();
+            setTimeout(() => document.getElementById('loaderBar').style.width = '0%', 400);
+          })
+          .catch(err => { console.error(err); });
       }
 
       function chooseStartup(idx) {
         currentSource = idx;
-        localStorage.setItem('sourceIndex', idx);
-        document.getElementById('sourceSelect').value = idx;
         document.getElementById('startupOverlay').style.display = 'none';
         loadSource();
       }
@@ -546,7 +462,6 @@
 
       function toggleSource(v) {
         currentSource = parseInt(v);
-        localStorage.setItem('sourceIndex', v);
         loadSource();
       }
 
