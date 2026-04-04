@@ -116,13 +116,6 @@
         font-size: 16px;
         width: 100%;
       }
-      #top-frame-target {
-        width: 728px;
-        min-height: 90px;
-        display: flex;
-        justify-content: flex-end;
-        align-items: center;
-      }
       #liveCount {
         font-size: 12px;
         background: var(--accent);
@@ -147,22 +140,13 @@
         .top-bar-container {
           width: calc(100% - 20px);
         }
-
         .top-bar-row {
           flex-direction: column;
           align-items: flex-start;
         }
-
-        #top-frame-target {
-          width: 100%;
-          min-height: 66px;
-          justify-content: center;
-        }
-
         .search-bar {
           width: min(420px, 100%);
         }
-
         #container {
           padding-top: 200px;
         }
@@ -332,12 +316,8 @@
         animation: fadeInBg 0.4s ease;
       }
       @keyframes fadeInBg {
-        from {
-          opacity: 0;
-        }
-        to {
-          opacity: 1;
-        }
+        from { opacity: 0; }
+        to { opacity: 1; }
       }
       .partner-card {
         background: linear-gradient(135deg, #0f1c32, #111a2d);
@@ -347,38 +327,18 @@
         max-width: 420px;
         width: 90%;
         text-align: center;
-        box-shadow:
-          0 0 60px rgba(77, 166, 255, 0.15),
-          0 20px 60px rgba(0, 0, 0, 0.6);
+        box-shadow: 0 0 60px rgba(77, 166, 255, 0.15), 0 20px 60px rgba(0, 0, 0, 0.6);
         animation: slideUp 0.45s cubic-bezier(0.22, 1, 0.36, 1);
       }
       @keyframes slideUp {
-        from {
-          transform: translateY(30px);
-          opacity: 0;
-        }
-        to {
-          transform: translateY(0);
-          opacity: 1;
-        }
-      }
-      .partner-icon {
-        width: 62px;
-        height: 62px;
-        border-radius: 16px;
-        background: linear-gradient(135deg, var(--accent), #0066cc);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        margin: 0 auto 20px;
-        font-size: 26px;
+        from { transform: translateY(30px); opacity: 0; }
+        to { transform: translateY(0); opacity: 1; }
       }
       .partner-card h2 {
         margin: 0 0 10px;
         font-size: 20px;
         font-weight: 700;
         color: white;
-        letter-spacing: -0.3px;
       }
       .partner-card p {
         margin: 0 0 28px;
@@ -400,17 +360,14 @@
         font-weight: 800;
         cursor: pointer;
         transition: 0.2s;
-        letter-spacing: 0.3px;
       }
       .partner-close-btn:hover {
         opacity: 0.85;
         transform: scale(1.03);
       }
     </style>
-    <script src="/assets/js/top-frame.js?v=9"></script>
-</head>
+  </head>
   <body>
-    <!-- PARTNER CREDIT POPUP -->
     <div id="partnerPopup">
       <div class="partner-card">
         <h2>A Special Thanks</h2>
@@ -436,7 +393,6 @@
           <input id="searchBar" placeholder="Search library..." oninput="filterZones()" />
           <span id="liveCount">0</span>
         </div>
-        <div id="top-frame-target"></div>
       </div>
     </div>
 
@@ -483,28 +439,6 @@
 
       let zones = [];
       let currentSource = 0;
-      let frameAdObserver = null;
-
-      function cleanDataProcess(rawFiles) {
-        const statusEl = document.getElementById('sysStatus');
-        statusEl.innerText = 'Indexing Files...';
-        const seen = new Set();
-        const processed = rawFiles
-          .map((file) => {
-            let cleanName = file.name
-              .replace(/\.html$/i, '')
-              .replace(/[-_]/g, ' ')
-              .replace(/\b\w/g, (char) => char.toUpperCase());
-            if (seen.has(cleanName)) return null;
-            seen.add(cleanName);
-            return { ...file, name: cleanName };
-          })
-          .filter((item) => item !== null);
-        processed.sort((a, b) => a.name.localeCompare(b.name));
-        statusEl.innerText = 'Ready';
-        setTimeout(() => (statusEl.innerText = ''), 2000);
-        return processed;
-      }
 
       async function init() {
         const savedColor = localStorage.getItem('accentColor') || '#4da6ff';
@@ -519,7 +453,7 @@
         sources.forEach((s, i) => {
           const btn = document.createElement('div');
           btn.className = 'startup-btn';
-          btn.innerHTML = `<b>${s.name}</b><span class="count-pill" id="count-${i}">Enter Library</span>`;
+          btn.innerHTML = `<b>${s.name}</b><span class="count-pill">Enter Library</span>`;
           btn.onclick = () => chooseStartup(i);
           startupBox.appendChild(btn);
 
@@ -534,20 +468,16 @@
 
       async function loadSource() {
         const container = document.getElementById('container');
-        container.innerHTML =
-          "<p style='grid-column:1/-1; text-align:center; opacity:0.5; margin-top:50px;'>Syncing Library...</p>";
+        container.innerHTML = "<p style='grid-column:1/-1; text-align:center; opacity:0.5; margin-top:50px;'>Syncing Library...</p>";
         const s = sources[currentSource];
 
         try {
-          if (s.type === 'json') {
-            const r = await fetch(s.json);
-            zones = await r.json();
-          }
+          const r = await fetch(s.json);
+          zones = await r.json();
           displayZones(zones);
         } catch (err) {
           console.error(err);
-          container.innerHTML =
-            "<p style='grid-column:1/-1; text-align:center; color:red;'>Sync Failed. Check Internet.</p>";
+          container.innerHTML = "<p style='grid-column:1/-1; text-align:center; color:red;'>Sync Failed. Check Internet.</p>";
         }
       }
 
@@ -578,116 +508,6 @@
         displayZones(zones.filter((z) => z.name && z.name.toLowerCase().includes(q)));
       }
 
-      function stripSidebarAds(targetDoc) {
-        if (!targetDoc) return;
-
-        const adSelectors = [
-          '#sidebarad1',
-          '#sidebarad2',
-          '.sidebar-frame',
-          '.sidebar-close',
-          '[id*="sidebarad"]',
-          '[class*="sidebarad"]',
-          'iframe[width="160"][height="600"]',
-        ];
-
-        targetDoc.querySelectorAll(adSelectors.join(',')).forEach((el) => el.remove());
-
-        targetDoc.querySelectorAll('style').forEach((styleTag) => {
-          const css = (styleTag.textContent || '').toLowerCase();
-          if (css.includes('#sidebarad1') || css.includes('#sidebarad2')) styleTag.remove();
-        });
-
-        targetDoc.querySelectorAll('script').forEach((scriptTag) => {
-          const src = (scriptTag.getAttribute('src') || '').toLowerCase();
-          const code = (scriptTag.textContent || '').toLowerCase();
-          if (
-            src.includes('googletagmanager.com/gtag/js') ||
-            code.includes('sidebarad1') ||
-            code.includes('sidebarad2') ||
-            code.includes('sidebar-frame') ||
-            code.includes('allow-popups-to-escape-sandbox')
-          ) {
-            scriptTag.remove();
-          }
-        });
-      }
-
-      function sanitizeFetchedHtml(html) {
-        try {
-          const parser = new DOMParser();
-          const parsed = parser.parseFromString(html, 'text/html');
-
-          stripSidebarAds(parsed);
-
-          const blockStyle = parsed.createElement('style');
-          blockStyle.textContent = `
-            #sidebarad1,
-            #sidebarad2,
-            .sidebar-frame,
-            .sidebar-close,
-            [id*="sidebarad"],
-            [class*="sidebarad"],
-            iframe[width="160"][height="600"] {
-              display: none !important;
-              visibility: hidden !important;
-            }
-          `;
-          parsed.head.appendChild(blockStyle);
-
-          return '<!doctype html>\n' + parsed.documentElement.outerHTML;
-        } catch (err) {
-          console.warn('HTML sanitize failed, blocking unsafe payload:', err);
-          return `<!doctype html>
-<html>
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Blocked</title>
-    <style>
-      body {
-        margin: 0;
-        height: 100vh;
-        display: grid;
-        place-items: center;
-        background: #090f1d;
-        color: #dbe7ff;
-        font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
-      }
-      .card {
-        width: min(560px, 92vw);
-        background: #111a2d;
-        border: 1px solid rgba(255, 255, 255, 0.1);
-        border-radius: 14px;
-        padding: 20px;
-      }
-      .title { font-weight: 800; margin-bottom: 8px; }
-      .muted { opacity: 0.8; line-height: 1.5; }
-    </style>
-  </head>
-  <body>
-    <div class="card">
-      <div class="title">This game page was blocked</div>
-      <div class="muted">Strict mode is enabled and this payload could not be sanitized safely.</div>
-    </div>
-  </body>
-</html>`;
-        }
-      }
-
-      function observeAndStripFrameAds(frameDoc) {
-        if (frameAdObserver) frameAdObserver.disconnect();
-        if (!frameDoc?.documentElement) return;
-
-        stripSidebarAds(frameDoc);
-
-        frameAdObserver = new MutationObserver(() => stripSidebarAds(frameDoc));
-        frameAdObserver.observe(frameDoc.documentElement, {
-          childList: true,
-          subtree: true,
-        });
-      }
-
       function openZone(z) {
         const s = sources[currentSource];
         let finalURL = z.isDirect
@@ -695,80 +515,14 @@
           : z.url.includes('{HTML_URL}')
             ? z.url.replace('{HTML_URL}', s.html)
             : s.html + z.url.replace(/^\//, '');
+            
         document.getElementById('zoneViewer').style.display = 'flex';
-        document.getElementById('loaderBar').style.width = '40%';
-
-        fetch(finalURL)
-          .then((r) => {
-            if (!r.ok) throw new Error(`HTTP ${r.status}`);
-            return r.text();
-          })
-          .then((html) => {
-            document.getElementById('loaderBar').style.width = '100%';
-            const doc = document.getElementById('zoneFrame').contentWindow.document;
-            const sanitizedHtml = sanitizeFetchedHtml(html);
-
-            doc.open();
-            doc.write(sanitizedHtml);
-            doc.close();
-
-            observeAndStripFrameAds(doc);
-
-            setTimeout(() => (document.getElementById('loaderBar').style.width = '0%'), 400);
-          })
-          .catch((err) => {
-            console.warn('Strict mode blocked unsanitized fallback:', err);
-            if (frameAdObserver) {
-              frameAdObserver.disconnect();
-              frameAdObserver = null;
-            }
-            const doc = document.getElementById('zoneFrame').contentWindow.document;
-            doc.open();
-            doc.write(`<!doctype html>
-<html>
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Load blocked</title>
-    <style>
-      body {
-        margin: 0;
-        height: 100vh;
-        display: grid;
-        place-items: center;
-        background: #090f1d;
-        color: #dbe7ff;
-        font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
-      }
-      .card {
-        width: min(620px, 92vw);
-        background: #111a2d;
-        border: 1px solid rgba(255, 255, 255, 0.1);
-        border-radius: 14px;
-        padding: 20px;
-      }
-      .title { font-weight: 800; margin-bottom: 8px; }
-      .muted { opacity: 0.8; line-height: 1.5; }
-      code {
-        display: inline-block;
-        background: rgba(255, 255, 255, 0.08);
-        border-radius: 8px;
-        padding: 2px 6px;
-        margin-top: 6px;
-      }
-    </style>
-  </head>
-  <body>
-    <div class="card">
-      <div class="title">Game load blocked in strict mode</div>
-      <div class="muted">This page was not loaded directly because unsanitized iframe fallback is disabled.</div>
-      <div class="muted" style="margin-top: 10px">URL:<br /><code>${finalURL}</code></div>
-    </div>
-  </body>
-</html>`);
-            doc.close();
-            document.getElementById('loaderBar').style.width = '0%';
-          });
+        document.getElementById('loaderBar').style.width = '100%';
+        document.getElementById('zoneFrame').src = finalURL;
+        
+        setTimeout(() => {
+          document.getElementById('loaderBar').style.width = '0%';
+        }, 600);
       }
 
       function chooseStartup(idx) {
@@ -789,16 +543,14 @@
         document.documentElement.style.setProperty('--accent', c);
         localStorage.setItem('accentColor', c);
       }
+
       function toggleSource(v) {
         currentSource = parseInt(v);
         localStorage.setItem('sourceIndex', v);
         loadSource();
       }
+
       function closeViewer() {
-        if (frameAdObserver) {
-          frameAdObserver.disconnect();
-          frameAdObserver = null;
-        }
         document.getElementById('zoneViewer').style.display = 'none';
         document.getElementById('zoneFrame').src = 'about:blank';
       }
