@@ -1,308 +1,70 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>NetTube - YouTube Clone</title>
-<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
-<style>
-  :root { --bg-color: #0f0f0f; --header-bg: #0f0f0f; --hover-bg: #272727; --border-color: #303030; --text-primary: #f1f1f1; --text-secondary: #aaaaaa; --yt-red: #FF0000; }
-  body { margin: 0; font-family: 'Roboto', Arial, sans-serif; background: var(--bg-color); color: var(--text-primary); overflow-x: hidden; }
-  
-  /* --- HEADER --- */
-  header { display: flex; align-items: center; justify-content: space-between; padding: 0 16px; height: 56px; background: var(--header-bg); position: sticky; top: 0; z-index: 100; }
-  .left-header { display: flex; align-items: center; gap: 16px; }
-  .menu-btn { padding: 8px; cursor: pointer; border-radius: 50%; display: flex; }
-  .menu-btn:hover { background: var(--hover-bg); }
-  .logo { font-weight: 700; font-size: 20px; letter-spacing: -1px; cursor: pointer; display: flex; align-items: center; gap: 5px; }
-  .logo i { color: var(--yt-red); }
-  
-  /* --- SEARCH BAR --- */
-  .center-header { flex: 0 1 732px; display: flex; align-items: center; gap: 16px; }
-  .search-box { display: flex; flex: 1; align-items: center; border: 1px solid var(--border-color); border-radius: 40px; background: #121212; overflow: hidden; height: 40px; }
-  .search-box input { flex: 1; padding: 2px 16px; background: transparent; border: none; color: var(--text-primary); font-size: 16px; outline: none; }
-  .search-box button { padding: 1px 20px; background: #222222; border: none; border-left: 1px solid var(--border-color); color: var(--text-primary); cursor: pointer; height: 100%; display: flex; align-items: center; justify-content: center; }
-  .search-box button:hover { background: var(--hover-bg); }
-  .mic-btn { background: #181818; border-radius: 50%; width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; cursor: pointer; }
-  .mic-btn:hover { background: var(--hover-bg); }
-  
-  /* --- SIDEBAR --- */
-  .container { display: flex; height: calc(100vh - 56px); }
-  .sidebar { width: 240px; background: var(--bg-color); padding: 12px; overflow-y: auto; }
-  .sidebar-item { display: flex; align-items: center; padding: 10px 12px; gap: 20px; border-radius: 10px; cursor: pointer; font-size: 14px; font-weight: 400; }
-  .sidebar-item:hover, .sidebar-item.active { background: var(--hover-bg); font-weight: 500;}
-  hr { border: none; border-top: 1px solid var(--border-color); margin: 12px 0; }
-  
-  /* --- MAIN CONTENT & CHIPS --- */
-  .main-wrapper { flex: 1; display: flex; flex-direction: column; overflow: hidden; }
-  .chips-container { display: flex; gap: 12px; padding: 12px 24px; background: var(--bg-color); border-bottom: 1px solid var(--border-color); overflow-x: auto; position: sticky; top: 0; z-index: 10; }
-  .chips-container::-webkit-scrollbar { display: none; }
-  .chip { background: var(--hover-bg); padding: 6px 12px; border-radius: 8px; font-size: 14px; font-weight: 500; cursor: pointer; white-space: nowrap; transition: background 0.2s; }
-  .chip.active { background: #f1f1f1; color: #0f0f0f; }
-  .chip:hover:not(.active) { background: #3f3f3f; }
-  .main { flex: 1; padding: 24px; overflow-y: auto; background: var(--bg-color); }
-  
-  /* --- GRID --- */
-  .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 40px 16px; }
-  .card { cursor: pointer; display: flex; flex-direction: column; gap: 12px; background: transparent; position: relative; }
-  .thumbnail-container { position: relative; width: 100%; padding-top: 56.25%; border-radius: 12px; overflow: hidden; }
-  .thumbnail-container img { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; transition: transform 0.2s, border-radius 0.2s; }
-  .card:hover .thumbnail-container img { border-radius: 0; transform: scale(1.02); }
-  .video-info { display: flex; gap: 12px; padding-right: 24px; }
-  .avatar { width: 36px; height: 36px; border-radius: 50%; background: #333; flex-shrink: 0; margin-top: 4px; overflow: hidden; }
-  .avatar img { width: 100%; height: 100%; object-fit: cover; position: relative; }
-  .text-info { display: flex; flex-direction: column; }
-  .text-info h4 { margin: 0 0 4px 0; font-size: 16px; font-weight: 500; line-height: 1.4; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
-  .text-info p { margin: 2px 0 0 0; font-size: 14px; color: var(--text-secondary); }
-  
-  /* --- WATCH PAGE --- */
-  .watch-container { display: flex; gap: 24px; max-width: 1400px; margin: 0 auto; width: 100%; }
-  .watch-main { flex: 1; min-width: 0; }
-  .video-wrapper { position: relative; padding-bottom: 56.25%; height: 0; background: #000; overflow: hidden; }
-  .video-wrapper video { position: absolute; top: 0; left: 0; width: 100%; height: 100%; outline: none; }
-  .watch-title { font-size: 20px; font-weight: 500; margin: 20px 0 10px 0; line-height: 1.4; }
-  .watch-stats-row { display: flex; justify-content: space-between; align-items: center; padding-bottom: 16px; border-bottom: 1px solid var(--border-color); color: var(--text-secondary); font-size: 14px; }
-  .watch-actions { display: flex; gap: 20px; align-items: center; font-weight: 500; color: var(--text-secondary); }
-  .action-item { display: flex; align-items: center; gap: 8px; cursor: pointer; text-transform: uppercase; }
-  .action-item:hover { color: var(--text-primary); }
-  .watch-channel-row { display: flex; justify-content: space-between; align-items: center; margin-top: 16px; }
-  .watch-channel-left { display: flex; align-items: center; gap: 16px; }
-  .watch-channel-left .avatar { width: 48px; height: 48px; }
-  .watch-channel-info h4 { margin: 0; font-size: 16px; color: var(--text-primary); }
-  .watch-channel-info p { margin: 4px 0 0 0; font-size: 13px; color: var(--text-secondary); }
-  .subscribe-btn { background: var(--text-primary); color: var(--bg-color); border: none; padding: 10px 16px; font-size: 14px; font-weight: 500; border-radius: 18px; cursor: pointer; }
-  .watch-sidebar { width: 400px; flex-shrink: 0; }
-  .compact-card { display: flex; gap: 8px; margin-bottom: 12px; cursor: pointer; }
-  .compact-thumb { width: 168px; height: 94px; background: #222; object-fit: cover; flex-shrink: 0; border-radius: 8px; }
-  .compact-info { display: flex; flex-direction: column; }
-  .compact-info h4 { margin: 0 0 4px 0; font-size: 14px; font-weight: 500; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; line-height: 1.4; }
-  .compact-info p { margin: 0 0 2px 0; font-size: 12px; color: var(--text-secondary); }
-
-  .loader { border: 4px solid var(--hover-bg); border-top: 4px solid var(--yt-red); border-radius: 50%; width: 40px; height: 40px; animation: spin 1s linear infinite; margin: 40px auto; }
-  @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Arctic 1.0 | Code Editor</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        :root {
+            --arctic-blue: #0f172a; /* Deep Midnight */
+            --arctic-light: #f8fafc; /* Crisp White */
+            --arctic-accent: #38bdf8; /* Ice Blue */
+            --arctic-border: #1e293b;
+        }
+        body, html { height: 100%; margin: 0; overflow: hidden; background: var(--arctic-blue); color: var(--arctic-light); font-family: 'Inter', sans-serif; }
+        
+        /* Layout Grid */
+        .app-container { display: grid; grid-template-rows: 45px 1fr 200px; height: 100vh; }
+        .main-view { display: grid; grid-template-columns: 1fr 400px; overflow: hidden; }
+        
+        /* UI Components */
+        .navbar { background: #020617; border-bottom: 1px solid var(--arctic-border); display: flex; align-items: center; justify-content: space-between; padding: 0 15px; }
+        .sidebar-icon { width: 50px; background: #020617; border-right: 1px solid var(--arctic-border); display: flex; flex-col; align-items: center; padding-top: 20px; }
+        .terminal { background: #020617; border-top: 4px solid var(--arctic-border); padding: 10px; font-family: monospace; font-size: 12px; overflow-y: auto; color: #94a3b8; }
+        
+        #editor-container { background: #0f172a; height: 100%; }
+        #preview-container { background: white; border-left: 2px solid var(--arctic-accent); position: relative; }
+        
+        .btn-run { background: var(--arctic-accent); color: var(--arctic-blue); font-weight: bold; padding: 4px 15px; border-radius: 4px; transition: all 0.2s; font-size: 12px; }
+        .btn-run:hover { opacity: 0.8; transform: scale(1.05); }
+        
+        .status-bar { height: 25px; background: var(--arctic-accent); color: var(--arctic-blue); position: fixed; bottom: 0; width: 100%; font-size: 11px; display: flex; align-items: center; padding: 0 10px; z-index: 100; }
+    </style>
 </head>
 <body>
 
-<header>
-  <div class="left-header">
-    <div class="menu-btn"><i class="material-icons">menu</i></div>
-    <div class="logo" onclick="home()"><i class="material-icons">smart_display</i> NetTube</div>
-  </div>
-  <div class="center-header">
-    <div class="search-box">
-      <input id="searchInput" placeholder="Search" onkeypress="handleEnter(event)">
-      <button onclick="search()"><i class="material-icons">search</i></button>
-    </div>
-    <div class="mic-btn"><i class="material-icons">mic</i></div>
-  </div>
-  <div class="left-header">
-    <i class="material-icons" style="cursor:pointer; padding:8px;">notifications</i>
-    <div class="avatar" style="width:32px; height:32px; cursor:pointer; margin-top:0;">
-      <img src="https://ui-avatars.com/api/?name=User&background=random" alt="User">
-    </div>
-  </div>
-</header>
+    <div class="app-container">
+        <header class="navbar">
+            <div class="flex items-center gap-4">
+                <span style="color: var(--arctic-accent); font-weight: 800; letter-spacing: 1px;">ARCTIC 1.0</span>
+                <span class="text-xs opacity-50">index.js</span>
+            </div>
+            <button id="run-btn" class="btn-run">RUN SESSION</button>
+        </header>
 
-<div class="container">
-  <div class="sidebar" id="sidebar">
-    <div class="sidebar-item active" id="nav-home" onclick="home()"><i class="material-icons">home</i> Home</div>
-    <div class="sidebar-item" id="nav-shorts" onclick="shorts()"><i class="material-icons">bolt</i> Shorts</div>
-    <div class="sidebar-item"><i class="material-icons">subscriptions</i> Subscriptions</div>
-    <hr>
-    <div class="sidebar-item"><i class="material-icons">video_library</i> Library</div>
-    <div class="sidebar-item"><i class="material-icons">history</i> History</div>
-  </div>
-
-  <div class="main-wrapper" id="mainWrapper">
-    <div class="chips-container" id="chips">
-      <div class="chip active" onclick="setCategory('All', this)">All</div>
-      <div class="chip" onclick="setCategory('Gaming', this)">Gaming</div>
-      <div class="chip" onclick="setCategory('Music', this)">Music</div>
-      <div class="chip" onclick="setCategory('Live', this)">Live</div>
-      <div class="chip" onclick="setCategory('Programming', this)">Programming</div>
-    </div>
-    <div class="main" id="main"></div>
-  </div>
-</div>
-
-<script>
-function handleEnter(e) { if (e.key === 'Enter') search(); }
-
-function formatCount(num) {
-  if (!num) return "1.2M"; 
-  if (num >= 1000000) return (num / 1000000).toFixed(1) + 'M';
-  if (num >= 1000) return (num / 1000).toFixed(1) + 'K';
-  return num;
-}
-
-function setActiveNav(id) {
-  document.querySelectorAll('.sidebar-item').forEach(el => el.classList.remove('active'));
-  if (document.getElementById(id)) document.getElementById(id).classList.add('active');
-}
-
-function setCategory(category, element) {
-  document.querySelectorAll('.chip').forEach(c => c.classList.remove('active'));
-  element.classList.add('active');
-  if (category === 'All') { document.getElementById('searchInput').value = ''; home(); } 
-  else { document.getElementById('searchInput').value = category; search(); }
-}
-
-function parseVideoData(v) {
-  const videoId = v.videoId || (v.id && v.id.videoId) || v.id || "unknown";
-  const title = v.title || (v.snippet && v.snippet.title) || "Unknown Title";
-  
-  let author = "Unknown Channel";
-  if (typeof v.author === 'string') author = v.author;
-  else if (v.author && v.author.name) author = v.author.name;
-  else if (v.snippet && v.snippet.channelTitle) author = v.snippet.channelTitle;
-  
-  let thumbUrl = "https://via.placeholder.com/320x180?text=No+Thumbnail";
-  if (typeof v.image === 'string') thumbUrl = v.image;
-  else if (v.image && v.image.url) thumbUrl = v.image.url;
-  else if (Array.isArray(v.image)) thumbUrl = v.image[0].url || v.image[0];
-  else if (typeof v.thumbnail === 'string') thumbUrl = v.thumbnail;
-  else if (v.thumbnail && v.thumbnail.url) thumbUrl = v.thumbnail.url;
-  else if (Array.isArray(v.thumbnail)) thumbUrl = v.thumbnail[0].url || v.thumbnail[0];
-  else if (v.videoThumbnails && v.videoThumbnails.length > 0) thumbUrl = v.videoThumbnails[0].url;
-  else if (v.snippet && v.snippet.thumbnails && v.snippet.thumbnails.high) thumbUrl = v.snippet.thumbnails.high.url;
-
-  const authorIcon = `https://ui-avatars.com/api/?name=${encodeURIComponent(author)}&background=random&color=fff`;
-  const views = formatCount(v.viewCount || v.views);
-  const time = v.publishedText || "Recently";
-
-  return { videoId, title, author, thumbUrl, authorIcon, views, time };
-}
-
-// Helper to reset the main padding when leaving the full-screen Shorts iframe
-function resetMainLayout() {
-  const main = document.getElementById("main");
-  main.style.padding = "24px";
-  main.style.overflowY = "auto";
-}
-
-// --- HOME & SEARCH ---
-async function home() {
-  setActiveNav('nav-home');
-  document.getElementById("sidebar").style.display = "block";
-  document.getElementById("chips").style.display = "flex";
-  resetMainLayout();
-  const main = document.getElementById("main");
-  main.innerHTML = `<div class="loader"></div>`;
-
-  try {
-    const r = await fetch(`https://sailforeducation.org/api/youtube/search/popular?max=20`);
-    const data = await r.json();
-    renderGrid(data.items || data.videos || data);
-  } catch (err) { main.innerHTML = `<p>Error loading videos.</p>`; }
-}
-
-async function search() {
-  const q = document.getElementById("searchInput").value;
-  if (!q) return;
-  setActiveNav('nav-home'); // Keep home active during search usually, or make a new one
-  document.getElementById("sidebar").style.display = "block";
-  document.getElementById("chips").style.display = "flex";
-  resetMainLayout();
-  const main = document.getElementById("main");
-  main.innerHTML = `<div class="loader"></div>`;
-
-  try {
-    const r = await fetch(`https://sailforeducation.org/api/youtube/search/${encodeURIComponent(q)}?max=20`);
-    const data = await r.json();
-    renderGrid(data.items || data.videos || data);
-  } catch (err) { main.innerHTML = `<p>Error loading search results.</p>`; }
-}
-
-function renderGrid(videos) {
-  const main = document.getElementById("main");
-  if(!Array.isArray(videos) || videos.length === 0) { main.innerHTML = "<p>No videos found.</p>"; return; }
-  let html = `<div class="grid">`;
-  videos.forEach(v => {
-    const p = parseVideoData(v);
-    html += `
-      <div class="card" onclick="play('${p.videoId}')">
-        <div class="thumbnail-container"><img src="${p.thumbUrl}"></div>
-        <div class="video-info">
-          <div class="avatar"><img src="${p.authorIcon}"></div>
-          <div class="text-info"><h4>${p.title}</h4><p>${p.author}</p><p>${p.views} views • ${p.time}</p></div>
+        <div class="main-view">
+            <div id="editor-container"></div>
+            <div id="preview-container">
+                <div id="preview-overlay" class="absolute inset-0 flex items-center justify-center bg-slate-900 text-sm text-slate-400 italic">
+                    Waiting for Arctic Engine...
+                </div>
+                <iframe id="localhost-view" class="w-full h-full border-none hidden"></iframe>
+            </div>
         </div>
-      </div>`;
-  });
-  html += `</div>`;
-  main.innerHTML = html;
-}
 
-// --- WATCH PAGE ---
-async function play(id) {
-  document.getElementById("chips").style.display = "none"; 
-  resetMainLayout();
-  const main = document.getElementById("main");
-  
-  main.innerHTML = `
-    <div class="watch-container">
-      <div class="watch-main" id="watchMain"><div class="video-wrapper"><div class="loader" style="position:absolute; top:40%; left:45%;"></div></div></div>
-      <div class="watch-sidebar" id="watchSidebar"><div class="loader"></div></div>
-    </div>`;
-
-  try {
-    const r = await fetch("/.netlify/functions/ytdl?url=https://www.youtube.com/watch?v=" + id);
-    const data = await r.json();
-    
-    document.getElementById("watchMain").innerHTML = `
-      <div class="video-wrapper"><video controls autoplay src="${data.url}"></video></div>
-      <h2 class="watch-title">${data.title || "Video Playing"}</h2>
-      <div class="watch-stats-row">
-        <span>1.2M views • Recently</span>
-        <div class="watch-actions">
-          <div class="action-item"><i class="material-icons">thumb_up</i> LIKE</div>
-          <div class="action-item"><i class="material-icons">reply</i> SHARE</div>
-          <div class="action-item"><i class="material-icons">playlist_add</i> SAVE</div>
+        <div class="terminal" id="terminal-out">
+            <div class="text-sky-400 mb-2">[System] Arctic Environment Initialized. Ready for input.</div>
         </div>
-      </div>
-      <div class="watch-channel-row">
-        <div class="watch-channel-left">
-          <div class="avatar"><img src="https://ui-avatars.com/api/?name=Channel&background=random" style="width:100%; height:100%; border-radius:50%;"></div>
-          <div class="watch-channel-info"><h4>Channel Name</h4><p>1.5M subscribers</p></div>
-        </div>
-        <button class="subscribe-btn">Subscribe</button>
-      </div>`;
-  } catch (err) { document.getElementById("watchMain").innerHTML = `<p>Error loading stream.</p>`; }
+    </div>
 
-  try {
-    const sr = await fetch(`https://sailforeducation.org/api/youtube/search/popular?max=10`);
-    const sdata = await sr.json();
-    let sidebarHtml = `<h3>Up next</h3>`;
-    (sdata.items || sdata.videos || sdata).forEach(v => {
-      const p = parseVideoData(v);
-      sidebarHtml += `
-        <div class="compact-card" onclick="play('${p.videoId}')">
-          <img class="compact-thumb" src="${p.thumbUrl}">
-          <div class="compact-info"><h4>${p.title}</h4><p>${p.author}</p><p>${p.views} views</p></div>
-        </div>`;
-    });
-    document.getElementById("watchSidebar").innerHTML = sidebarHtml;
-  } catch (e) { document.getElementById("watchSidebar").innerHTML = "<p>Error loading suggestions</p>"; }
-}
+    <div class="status-bar">
+        <span>● Connected</span>
+        <span class="ml-4">UTF-8</span>
+        <span class="ml-4">Node.js Virtual Environment</span>
+    </div>
 
-// --- IFRAME SHORTS INTEGRATION ---
-function shorts() {
-  setActiveNav('nav-shorts');
-  document.getElementById("sidebar").style.display = "none";
-  document.getElementById("chips").style.display = "none";
-  const main = document.getElementById("main");
-  
-  // Remove padding and scrolling from the main container so the iframe sits flush
-  main.style.padding = "0";
-  main.style.overflowY = "hidden"; 
-
-  // Inject the standalone shorts app we built earlier
-  main.innerHTML = `<iframe src="/info" style="width: 100%; height: calc(100vh - 56px); border: none; display: block;" allow="autoplay; fullscreen"></iframe>`;
-}
-
-// Start app
-home();
-</script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.44.0/min/vs/loader.min.js"></script>
+    <script type="module" src="main.js"></script>
 </body>
 </html>
