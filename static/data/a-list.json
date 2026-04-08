@@ -5,7 +5,7 @@
     "url": "openAg('https://deepai.org')"
   },
   {
-    "name": "Arctic 1.0 New Proxy (WORKING)",
+    "name": "Arctic 1.0 New Proxy (KINDA BROKEN)",
     "imageUrl": "/assets/img/gemini.webp",
     "url": "window.location.href='/arcticmathsearch.html'"
   },
@@ -26,7 +26,7 @@
     "height": 130
   },
   {
-    "name": "YouTube (WORKING)",
+    "name": "YouTube (KINDA BROKEN)",
     "imageUrl": "/assets/img/youtube.webp",
     "url": "openAg('https://m.youtube.com/shorts/jQN4GlGbidU')"
   },
