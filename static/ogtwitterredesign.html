@@ -9,312 +9,342 @@
 <style>
   * { box-sizing: border-box; margin: 0; padding: 0; }
   :root {
-    --tw-blue: #1DA1F2;
-    --tw-hover: #1a91da;
-    --tw-black: #14171A;
-    --tw-gray-txt: #657786;
-    --tw-border: #E1E8ED;
-    --tw-light-bg: #F5F8FA;
-    --pure-white: #FFFFFF;
+    --brand-blue: #1DA1F2;
+    --brand-blue-dark: #1a91da;
+    --main-text: #14171A;
+    --faded-text: #657786;
+    --ui-border: #E1E8ED;
+    --soft-bg: #F5F8FA;
+    --canvas: #FFFFFF;
   }
   body {
     font-family: 'DM Sans', 'Helvetica Neue', Arial, sans-serif;
-    background: var(--tw-light-bg);
-    color: var(--tw-black);
-    min-height: 100vh;
-    -webkit-font-smoothing: subpixel-antialiased;
+    background: var(--soft-bg);
+    color: var(--main-text);
+    height: 100vh;
+    -webkit-font-smoothing: antialiased;
   }
-  .main-flex-wrapper {
+  .tw-shell {
     display: flex;
     min-height: 100vh;
   }
-  .blue-branding-side {
+  .side-hero-banner {
     flex: 1.15;
-    background: linear-gradient(135deg, #1DA1F2 10%, #0a5f96 90%);
+    background: #1DA1F2;
+    background: linear-gradient(135deg, #1DA1F2 0%, #0d7ec7 100%);
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     position: relative;
     overflow: hidden;
-    padding: 50px;
+    padding: 60px;
   }
-  .floating-decoration {
+  .bg-ornament {
     position: absolute;
-    border-radius: 100%;
-    border: 1px solid rgba(255,255,255,0.08);
-    animation: move-bg 25s linear infinite;
+    border-radius: 999px;
+    border: 1px solid rgba(255,255,255,0.1);
+    animation: slow-drift 30s linear infinite;
   }
-  .bubble-1 { width: 480px; height: 480px; top: -10%; left: -5%; }
-  .bubble-2 { width: 300px; height: 300px; bottom: 5%; right: -2%; }
-  @keyframes move-bg {
-    0% { transform: translate(0,0) rotate(0); }
-    50% { transform: translate(15px, 20px) rotate(5deg); }
-    100% { transform: translate(0,0) rotate(0); }
+  .ornament-lg { width: 550px; height: 550px; top: -150px; left: -100px; }
+  .ornament-sm { width: 300px; height: 300px; bottom: -50px; right: -50px; animation-delay: -5s; }
+  @keyframes slow-drift {
+    0% { transform: translate(0,0) scale(1); }
+    50% { transform: translate(30px, 20px) scale(1.05); }
+    100% { transform: translate(0,0) scale(1); }
   }
-  .promo-area {
+  .hero-inner-wrap {
     position: relative;
-    z-index: 5;
-    color: var(--pure-white);
+    z-index: 10;
+    color: #fff;
   }
-  .big-logo-main {
-    width: 75px;
-    height: 75px;
-    margin-bottom: 40px;
+  .tw-logo-large {
+    width: 80px;
+    height: 80px;
+    margin-bottom: 50px;
     display: block;
     margin-left: auto;
     margin-right: auto;
   }
-  .feature-list {
+  .usp-list {
     list-style: none;
-    max-width: 400px;
+    max-width: 420px;
+    padding: 0;
   }
-  .feature-list li {
+  .usp-list li {
     display: flex;
     align-items: center;
-    gap: 15px;
-    margin-bottom: 25px;
-    font-size: 18px;
-    font-weight: 500;
+    gap: 20px;
+    margin-bottom: 30px;
+    font-size: 19px;
+    font-weight: 600;
   }
-  .auth-form-side {
+  .right-auth-container {
     flex: 0.85;
-    background: var(--pure-white);
+    background: var(--canvas);
     display: flex;
-    padding: 40px;
+    padding: 50px;
     align-items: center;
     justify-content: center;
+    position: relative;
   }
-  .login-box-width {
+  .login-card-v2 {
     width: 100%;
     max-width: 380px;
   }
-  .login-box-width h1 {
-    font-size: 32px;
-    letter-spacing: -1px;
-    margin: 15px 0 10px;
+  .login-card-v2 h1 {
+    font-size: 34px;
+    font-weight: 800;
+    letter-spacing: -1.2px;
+    margin: 20px 0 8px;
   }
-  .sub-head {
-    color: var(--tw-gray-txt);
-    margin-bottom: 35px;
+  .tagline-sub {
+    color: var(--faded-text);
+    margin-bottom: 40px;
+    font-size: 15px;
   }
-  .input-wrap {
-    margin-bottom: 18px;
+  .field-block {
+    margin-bottom: 22px;
   }
-  .input-wrap label {
+  .field-block label {
     display: block;
-    font-size: 12px;
+    font-size: 13px;
     text-transform: uppercase;
     font-weight: 700;
-    color: var(--tw-gray-txt);
-    margin-bottom: 5px;
+    color: var(--faded-text);
+    margin-bottom: 6px;
+    letter-spacing: 0.5px;
   }
-  .standard-input {
+  .tw-input-style {
     width: 100%;
-    padding: 12px 14px;
-    border: 1px solid #ccd6dd;
-    border-radius: 8px;
+    padding: 15px;
+    border: 2px solid var(--ui-border);
+    border-radius: 10px;
     font-size: 16px;
-    background-color: #fcfcfc;
-  }
-  .standard-input:focus {
-    outline: none;
-    border-color: var(--tw-blue);
     background: #fff;
+    transition: border-color 0.2s;
   }
-  .pass-row {
+  .tw-input-style:focus {
+    outline: none;
+    border-color: var(--brand-blue);
+  }
+  .pass-field-container {
     position: relative;
   }
-  .eye-btn {
+  .reveal-toggle-v3 {
     position: absolute;
-    right: 12px;
-    top: 10px;
-    background: none;
+    right: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: transparent;
     border: none;
     cursor: pointer;
-    color: #8899a6;
+    color: #AAB8C2;
+    padding: 5px;
   }
-  .flex-options {
+  .reveal-toggle-v3:hover { color: var(--faded-text); }
+  .login-options-row {
     display: flex;
     justify-content: space-between;
     font-size: 14px;
-    margin: 20px 0;
+    margin: 25px 0;
   }
-  .btn-submit-main {
+  .tw-cta-submit {
     width: 100%;
-    background: var(--tw-blue);
-    color: white;
+    background: var(--brand-blue);
+    color: #fff;
     border: none;
-    padding: 14px;
-    border-radius: 30px;
+    padding: 16px;
+    border-radius: 50px;
     font-size: 16px;
     font-weight: 700;
     cursor: pointer;
+    box-shadow: 0 4px 12px rgba(29, 161, 242, 0.2);
   }
-  .btn-submit-main:hover {
-    background: var(--tw-hover);
+  .tw-cta-submit:hover { background: var(--brand-blue-dark); }
+  .social-login-wrap {
+    margin-top: 15px;
   }
-  .social-btn {
+  .auth-provider-btn {
     width: 100%;
     padding: 12px;
-    border-radius: 30px;
-    margin-bottom: 10px;
+    border-radius: 50px;
+    margin-bottom: 12px;
     font-weight: 600;
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 10px;
+    gap: 12px;
     cursor: pointer;
-    border: 1px solid var(--tw-border);
-    background: white;
+    border: 1px solid var(--ui-border);
+    background: #fff;
+    font-size: 15px;
   }
-  .btn-black {
-    background: #000;
-    color: #fff;
-    border: none;
-  }
-  .ui-separator {
+  .btn-dark-mode { background: #000; color: #fff; border: none; }
+  .btn-dark-mode:hover { background: #272c30; }
+  .or-divider {
     text-align: center;
-    margin: 20px 0;
+    margin: 25px 0;
     position: relative;
+    font-size: 14px;
+    color: var(--faded-text);
   }
-  .ui-separator::after {
+  .or-divider::before {
     content: "";
     height: 1px;
-    background: var(--tw-border);
+    background: var(--ui-border);
     width: 100%;
     position: absolute;
     left: 0;
     top: 50%;
     z-index: 1;
   }
-  .ui-separator span {
+  .or-divider span {
     background: #fff;
     position: relative;
-    z-index: 2;
-    padding: 0 10px;
-    color: #657786;
+    z-index: 5;
+    padding: 0 15px;
   }
-  .bottom-links {
-    margin-top: 30px;
-    font-size: 14px;
+  .bottom-signup-prompt {
+    margin-top: 40px;
+    font-size: 15px;
     text-align: center;
   }
-  .bottom-links a {
-    color: var(--tw-blue);
+  .bottom-signup-prompt a {
+    color: var(--brand-blue);
     text-decoration: none;
+    font-weight: 600;
   }
-  .footer-copyright {
+  .global-legal-footer {
     position: absolute;
-    bottom: 15px;
-    font-size: 11px;
+    bottom: 20px;
+    width: 100%;
+    text-align: center;
+    font-size: 12px;
     color: #8899a6;
+    left: 0;
   }
-  @media (max-width: 850px) {
-    .main-flex-wrapper { flex-direction: column; }
-    .blue-branding-side { flex: none; min-height: 250px; padding: 30px; }
-    .feature-list { display: none; }
-    .footer-copyright { position: static; margin-top: 20px; }
+  @media (max-width: 900px) {
+    .tw-shell { flex-direction: column; }
+    .side-hero-banner { flex: none; height: 300px; padding: 40px; }
+    .usp-list { display: none; }
+    .global-legal-footer { position: static; padding: 30px 0; }
   }
 </style>
 </head>
 <body>
 
-<div class="main-flex-wrapper">
-  <div class="blue-branding-side">
-    <div class="floating-decoration bubble-1"></div>
-    <div class="floating-decoration bubble-2"></div>
+<div class="tw-shell">
+  <div class="side-hero-banner">
+    <div class="bg-ornament ornament-lg"></div>
+    <div class="bg-ornament ornament-sm"></div>
     
-    <div class="promo-area">
-      <svg class="big-logo-main" viewBox="0 0 24 24" fill="white">
+    <div class="hero-inner-wrap">
+      <svg class="tw-logo-large" viewBox="0 0 24 24" fill="white">
         <path d="M23.643 4.937c-.835.37-1.732.62-2.675.733a4.67 4.67 0 002.048-2.578 9.3 9.3 0 01-2.958 1.13 4.66 4.66 0 00-7.938 4.25 13.229 13.229 0 01-9.602-4.868c-.4.69-.63 1.49-.63 2.342A4.66 4.66 0 003.96 9.824a4.647 4.647 0 01-2.11-.583v.06a4.66 4.66 0 003.737 4.568 4.692 4.692 0 01-2.104.08 4.661 4.661 0 004.352 3.234 9.348 9.348 0 01-5.786 1.995 9.5 9.5 0 01-1.112-.065 13.175 13.175 0 007.14 2.093c8.57 0 13.255-7.098 13.255-13.254 0-.2-.005-.402-.014-.602a9.47 9.47 0 002.323-2.41l.002-.003z"/>
       </svg>
-      <ul class="feature-list">
+      <ul class="usp-list">
         <li>
-          <svg width="24" height="24" stroke="white" stroke-width="2" fill="none"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
-          Check out what's going on.
+          <svg width="28" height="28" stroke="white" stroke-width="2.5" fill="none"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
+          Hear what people are talking about.
         </li>
         <li>
-          <svg width="24" height="24" stroke="white" stroke-width="2" fill="none"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4-4v2"/><circle cx="9" cy="7" r="4"/></svg>
-          Talk with the world.
+          <svg width="28" height="28" stroke="white" stroke-width="2.5" fill="none"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4-4v2"/><circle cx="9" cy="7" r="4"/></svg>
+          Join the global conversation.
         </li>
         <li>
-          <svg width="24" height="24" stroke="white" stroke-width="2" fill="none"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
-          See what's trending.
+          <svg width="28" height="28" stroke="white" stroke-width="2.5" fill="none"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+          Get the latest updates first.
         </li>
       </ul>
     </div>
   </div>
 
-  <div class="auth-form-side">
-    <div class="login-box-width">
-      <svg width="35" height="35" viewBox="0 0 24 24" fill="#1DA1F2">
+  <div class="right-auth-container">
+    <div class="login-card-v2">
+      <svg width="40" height="40" viewBox="0 0 24 24" fill="#1DA1F2">
         <path d="M23.643 4.937c-.835.37-1.732.62-2.675.733a4.67 4.67 0 002.048-2.578 9.3 9.3 0 01-2.958 1.13 4.66 4.66 0 00-7.938 4.25 13.229 13.229 0 01-9.602-4.868c-.4.69-.63 1.49-.63 2.342A4.66 4.66 0 003.96 9.824a4.647 4.647 0 01-2.11-.583v.06a4.66 4.66 0 003.737 4.568 4.692 4.692 0 01-2.104.08 4.661 4.661 0 004.352 3.234 9.348 9.348 0 01-5.786 1.995 9.5 9.5 0 01-1.112-.065 13.175 13.175 0 007.14 2.093c8.57 0 13.255-7.098 13.255-13.254 0-.2-.005-.402-.014-.602a9.47 9.47 0 002.323-2.41l.002-.003z"/>
       </svg>
-      <h1>Log in to Twitter</h1>
-      <p class="sub-head">Enter your details below to continue.</p>
+      <h1>See what's happening</h1>
+      <p class="tagline-sub">Login to your account to see the latest.</p>
 
-      <button class="social-btn">
-        <img width="18" src="https://www.gstatic.com/images/branding/product/1x/gsa_512dp.png" alt="">
-        Sign in with Google
-      </button>
-      <button class="social-btn btn-black">
-        Sign in with Apple
-      </button>
+      <div class="social-login-wrap">
+        <button class="auth-provider-btn" type="button">
+          <img width="18" src="https://www.gstatic.com/images/branding/product/1x/gsa_512dp.png" alt="">
+          Continue with Google
+        </button>
+        <button class="auth-provider-btn btn-dark-mode" type="button">
+          Sign in with Apple
+        </button>
+      </div>
 
-      <div class="ui-separator"><span>or</span></div>
+      <div class="or-divider"><span>or</span></div>
 
-      <form id="loginForm">
-        <div class="input-wrap">
-          <label>Phone, email, or username</label>
-          <input type="text" class="standard-input" id="user_id">
+      <form id="tw_main_login">
+        <div class="field-block">
+          <label for="id_login_field">Phone, email, or username</label>
+          <input type="text" class="tw-input-style" id="id_login_field" required>
         </div>
-        <div class="input-wrap">
-          <label>Password</label>
-          <div class="pass-row">
-            <input type="password" class="standard-input" id="user_pass">
-            <button type="button" class="eye-btn" onclick="toggleVisibility()">
-              <svg id="eye_svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+        <div class="field-block">
+          <label for="id_pass_field">Password</label>
+          <div class="pass-field-container">
+            <input type="password" class="tw-input-style" id="id_pass_field" required>
+            <button type="button" class="reveal-toggle-v3" id="toggle_btn_reveal">
+              <svg id="svg_eye" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
             </button>
           </div>
         </div>
 
-        <div class="flex-options">
-          <label style="cursor:pointer"><input type="checkbox"> Remember me</label>
-          <a href="#" style="color:#1DA1F2; text-decoration:none">Forgot password?</a>
+        <div class="login-options-row">
+          <label style="cursor:pointer; display:flex; align-items:center; gap:8px;">
+            <input type="checkbox" id="persist_session"> Remember me
+          </label>
+          <a href="#" style="color:#1DA1F2; text-decoration:none; font-weight:500;">Forgot password?</a>
         </div>
 
-        <button type="submit" class="btn-submit-main">Log in</button>
+        <button type="submit" class="tw-cta-submit" id="submit_auth_form">Log in</button>
       </form>
 
-      <div class="bottom-links">
-        Don't have an account? <a href="#">Sign up</a>
+      <div class="bottom-signup-prompt">
+        New to Twitter? <a href="#">Sign up now</a>
       </div>
 
-      <div class="footer-copyright">
-        &copy; 2026 Twitter, Inc.
+      <div class="global-legal-footer">
+        &copy; 2026 Twitter Corp. <span style="margin-left:10px">Privacy & Terms</span>
       </div>
     </div>
   </div>
 </div>
 
 <script>
-  function toggleVisibility() {
-    var p = document.getElementById('user_pass');
-    var s = document.getElementById('eye_svg');
-    if (p.type === 'password') {
-      p.type = 'text';
-      s.style.color = '#1DA1F2';
-    } else {
-      p.type = 'password';
-      s.style.color = '#8899a6';
-    }
-  }
+  (function() {
+    var pInput = document.getElementById('id_pass_field');
+    var tBtn = document.getElementById('toggle_btn_reveal');
+    var eye = document.getElementById('svg_eye');
 
-  document.getElementById('loginForm').onsubmit = function(e) {
-    e.preventDefault();
-    console.log('Attempting login...');
-  };
+    tBtn.addEventListener('click', function() {
+      if (pInput.type === 'password') {
+        pInput.type = 'text';
+        eye.style.stroke = '#1DA1F2';
+      } else {
+        pInput.type = 'password';
+        eye.style.stroke = '#AAB8C2';
+      }
+    });
+
+    var form = document.getElementById('tw_main_login');
+    form.onsubmit = function(event) {
+      event.preventDefault();
+      var btn = document.getElementById('submit_auth_form');
+      btn.innerText = 'Verifying...';
+      btn.disabled = true;
+      setTimeout(function() {
+        alert('Invalid credentials. Please try again.');
+        btn.innerText = 'Log in';
+        btn.disabled = false;
+      }, 1200);
+    };
+  })();
 </script>
 
 </body>
